@@ -1,0 +1,13 @@
+citHeader("Please cite the following if utilizing the bbeaR software: ")
+citEntry(entry="article",
+  author = "Maria Suprun, Randall J. Ellis, and Mayte Suárez-Fariñas",
+  title = "bbeaR: a Bioconductor R package and framework for epitope-specific antibody profiling",
+  journal = "XXXX",
+  year = 2020,
+  volume = XXXX,
+  pages = "XXXXXX",
+  textVersion=
+    paste("Suprun, M, Ellis, R.J., and Suárez-Fariñas, M",
+          "bbeaR: a Bioconductor R package and framework for epitope-specific antibody profiling.", 
+          "Bioinformatics, 2020, 14, 1846-1847",sep="\n")
+)
