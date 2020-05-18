@@ -1,0 +1,60 @@
+\name{subset.bbea}
+\alias{subset.bbea}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Subset bbea object
+}
+\description{
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+}
+\usage{
+subset.bbea(bbea.obj, statement)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{bbea.obj}{
+     bbea data object
+  \item{statement}
+     statement criterion to subset data by
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+  \item{L1 }{Median, mean, and counts of fluorescence}
+  \item{L2 }{Phenotype data}
+%% ...
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+Maria Suprun
+Randall J. Ellis
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (x) 
+{
+  }
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
