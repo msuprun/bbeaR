@@ -1,6 +1,5 @@
-bbea.changeAnnotation <- function(bbea.obj, annotation, newNameCol="Peptide"){
-  # annot needs to have a Bead column with a numeric bead #
-  rownames(annotation) <- paste0("Analyte ", as.character(annotation$Bead))
+bbea.changeAnnotation<-function(bbea.obj, annotation, newNameCol="Peptide",AnalyteCol="Analyte"){
+  rownames(annotation) <- as.character(annotation[,AnalyteCol])
   annotation$Peptide <- as.character(annotation[,newNameCol])
   rownames(bbea.obj$Median) <- annotation[rownames(bbea.obj$Median), "Peptide"]
   rownames(bbea.obj$NetMFI) <- annotation[rownames(bbea.obj$NetMFI), "Peptide"]
