@@ -6,7 +6,7 @@ Principal component analysis of samples from ExpressionSet or matrix
 }
 
 \description{
-A wrapper function of the prcomp{stats} that takes in an ExpressionSet or a matrix, calculates principal comonents, and merges the results with phenotype/clinical data (from ExpressionSet object).
+A wrapper function of the stats::prcomp that takes an ExpressionSet or a matrix, calculates principal comonents, and merges the results with phenotype/clinical data (from ExpressionSet object).
 }
 
 \usage{
