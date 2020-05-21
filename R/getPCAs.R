@@ -1,7 +1,8 @@
 getPCAs<-function (eset, maxpc = 3) {
   if (!is.matrix(eset)) {
-    ex <- exprs(eset)
-    out <- pData(eset)
+    require(Biobase)
+    ex <- Biobase::exprs(eset)
+    out <- Biobase::pData(eset)
   }
   else {
     out <- NULL

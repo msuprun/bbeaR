@@ -2,28 +2,24 @@
 \alias{getPCAs}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Principal component analysis of samples from expressionset or matrix
+Principal component analysis of samples from ExpressionSet or matrix
 }
+
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+A wrapper function of the prcomp{stats} that takes in an ExpressionSet or a matrix, calculates principal comonents, and merges the results with phenotype/clinical data (from ExpressionSet object).
 }
+
 \usage{
 getPCAs(eset, maxpc = 3)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
-\item{eset}{expressionSet of epitope data}
-\item{maxpc}{max principal components}
+\item{eset}{expressionSet or matrix of the epitope data, where samples are columns, and features are rows}
+\item{maxpc}{number of principal components in the output}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+The function returns a list object with a data.frame, which consists of pricincipal components and phenotypic data (if eset instead of matrix was provided), and varex - proportion of variance explained by each component.
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -31,4 +27,12 @@ getPCAs(eset, maxpc = 3)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
+}
+
+\examples{
+data(Egg)
+pca.db <- getPCAs(as.matrix(bbea$Median), maxpc = 3)
+head(pca.db$db)
+pca.db$varex
 }
