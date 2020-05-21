@@ -12,13 +12,9 @@ bbea.QC.Image(db, ht=4, wd=6, filename="...")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{db}
-     experiment outputs
-  \item{ht}
-     image height
-  \item{wd}
-     image width
-}
+  \item{db}{experiment outputs}
+  \item{ht}{image height}
+  \item{wd}{image width}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

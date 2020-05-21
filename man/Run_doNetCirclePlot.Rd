@@ -12,13 +12,9 @@ Run_doNetCirclePlot(ebfit, D, AnnotTable, fname, circle.scale = 18.5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{ebfit}{
-     empirical Bayes model measuring differences between experimental groups
-  \item{D}
-     test statistics after multiple comparisons adjustment
-  \item{AnnotTable}
-     annotation mapping scheme
-}
+  \item{ebfit}{empirical Bayes model measuring differences between experimental groups}
+  \item{D}{test statistics after multiple comparisons adjustment}
+  \item{AnnotTable}{annotation mapping scheme}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
