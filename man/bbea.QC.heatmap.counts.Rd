@@ -12,11 +12,8 @@ bbea.QC.heatmap.counts(bbea.obj, getlog2=FALSE, filename='...')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bbea.obj}{
-     bbeaR data object
-  \item{getlog2}
-     boolean to calculate the log2 expression of each epitope
-}
+  \item{bbea.obj}{bbeaR data object}
+  \item{getlog2}{boolean to calculate the log2 expression of each epitope}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
