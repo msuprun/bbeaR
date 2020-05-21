@@ -12,11 +12,8 @@ getAveragesByReps(eset, UR=c("PTID", "Plate"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{eset}{
-     expressionSet of peptide expression
-  \item{UR}
-  	unit of replication (e.g., patient, visit)
-}
+  \item{eset}{expressionSet of peptide expression}
+  \item{UR}{unit of replication (e.g., patient, visit)}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

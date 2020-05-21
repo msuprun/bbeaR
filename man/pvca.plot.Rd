@@ -1,5 +1,5 @@
-\name{plot.pvca}
-\alias{plot.pvca}
+\name{pvca.plot}
+\alias{pvca.plot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Generate a Principal Variance Components Analysis (PVCA) plot
@@ -8,14 +8,11 @@ Generate a Principal Variance Components Analysis (PVCA) plot
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-plot.pvca(pvcaObj, cex.percentage = 1, fname = NULL, ht = 4, wd = 5, title = fname,ylim=c(0,1), order=labels)
+pvca.plot(pvcaObj, cex.percentage = 1, fname = NULL, ht = 4, wd = 5, title = fname,ylim=c(0,1), order=labels)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{pvcaObj}{
-     PVCA data
-     
-}
+  \item{pvcaObj}{PVCA data}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -54,7 +51,4 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

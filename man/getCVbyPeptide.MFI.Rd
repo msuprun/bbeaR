@@ -12,11 +12,8 @@ getCVbyPeptide.MFI(bbea.obj, UR="PTID, Plate")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bbea.obj}{
-     bbea data object
-  \item{UR}
-  	 unit of replication (e.g., patient, visit)
-}
+  \item{bbea.obj}{bbea data object}
+  \item{UR}{unit of replication (e.g., patient, visit)}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -55,7 +52,3 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

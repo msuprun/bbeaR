@@ -12,17 +12,11 @@ getEnzymeCuts(sequence,topo = FALSE, topodb = NULL, rmsignal=T, signalend=24)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{sequence}{
-     amino acid sequence
-  \item{topo}
-     boolean for a dataframe generated with getTopologyPlotDB()
-  \item{topodb}
-     name of the getTopologyPlotDB() dataframe
-  \item{rmsignal}
-     boolean for the removal of the signal peptide chain
-  \item{signalend}
-     final residue of the signal chain
-}
+  \item{sequence}{amino acid sequence}
+  \item{topo}{boolean for a dataframe generated with getTopologyPlotDB()}
+  \item{topodb}{name of the getTopologyPlotDB() dataframe}
+  \item{rmsignal}{boolean for the removal of the signal peptide chain}
+  \item{signalend}{final amino acid residue of the signal chain}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -61,7 +55,4 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

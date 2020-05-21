@@ -13,19 +13,12 @@ binarizeMFIbySD(bbea.object,buffer.name="Buffer",plateVar="PlateNum",
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bbea.object}{
-     bbea data object
-  \item{buffer.name}
-     buffer to use for reference signal
-  \item{plateVar}
-     column indicating batch/plate
-  \item{UR}
-     unit of replication
-  \item{nSD}
-     number of standard deviations to use as the cutoff before indicating a positive signal presence
-  \item{logMFI}
-     boolean for taking the log transform of the mean fluorescence intensity
-}
+  \item{bbea.object}{bbea data object}
+  \item{buffer.name}{buffer to use for reference signal}
+  \item{plateVar}{column indicating batch/plate}
+  \item{UR}{unit of replication}
+  \item{nSD}{number of standard deviations to use as the cutoff before indicating a positive signal presence}
+  \item{logMFI}{boolean for taking the log transform of the mean fluorescence intensity}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -60,7 +53,4 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

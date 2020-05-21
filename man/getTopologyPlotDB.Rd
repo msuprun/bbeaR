@@ -12,17 +12,11 @@ getTopologyPlotDB(aaseq,ymax=21,offset=4,meta=FALSE,metadb=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{aaseq}{
-     amino acid sequence
-  \item{ymax}
-     maximum number of amino acids
-  \item{offset}
-     the first few amino acids to be below the rest of the plot
-  \item{meta}
-     boolean for the presence of metadata
-  \item{metadb}
-     metadata dataframe
-}
+  \item{aaseq}{amino acid sequence}
+  \item{ymax}{maximum number of amino acids}
+  \item{offset}{the first few amino acids to be below the rest of the plot}
+  \item{meta}{boolean for the presence of metadata}
+  \item{metadb}{metadata dataframe}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -61,7 +55,4 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

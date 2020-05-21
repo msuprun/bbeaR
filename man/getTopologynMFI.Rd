@@ -12,15 +12,10 @@ getTopologynMFI(eset,peptideDB,topoDB,endSignal=0)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{eset}{
-     peptide expressionSet
-  \item{peptideDB}
-     peptide dataframe
-  \item{topoDB}
-     topology dataframe
-  \item{endSignal}
-     designation of the end of the signal
-}
+  \item{eset}{peptide expressionSet}
+  \item{peptideDB}{peptide dataframe}
+  \item{topoDB}{topology dataframe}
+  \item{endSignal}{designation of the end of the signal}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -59,7 +54,3 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
