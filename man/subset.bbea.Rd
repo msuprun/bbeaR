@@ -12,11 +12,8 @@ subset.bbea(bbea.obj, statement)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bbea.obj}{
-     bbea data object
-  \item{statement}
-     statement criterion to subset data by
-}
+  \item{bbea.obj}{bbea data object}
+  \item{statement}statement criterion to subset data by}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
