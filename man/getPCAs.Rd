@@ -35,7 +35,7 @@ getPCAs(eset, maxpc = 3)
 Maria Suprun
 Randall J. Ellis
 Mayte Suárez-Fariñas
-}
+
 \note{
 %%  ~~further notes~~
 }
