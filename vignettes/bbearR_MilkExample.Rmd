@@ -10,6 +10,8 @@ output:
     toc: yes
   pdf_document:
     toc: yes  
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!--
@@ -112,7 +114,7 @@ We can now add extrenal information about the samples and analytes.
 Load already imported data that inlcudes **p**henotype (clinical) **d**ata *PD* and an annotation file *Annot*. Note: this will also load a *bbea* list object (generated in the previous steps).  
 
 ```{r Load pheno data}
-load("../Data/BBEA_mOIT_IgE/MOIT.RData")
+data(Milk)
 ```
 
 The annotation **Annot** dataset contains the mapping of Luminex beads (Analytes) to the peptides/eptiopes.

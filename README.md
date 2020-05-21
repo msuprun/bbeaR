@@ -13,7 +13,7 @@ To install directly from github:
 
 ```{r}
 library(devtools)
-install_github('bbeaR')
+install_github('msuprun/bbeaR')
 ```
 
 ## Usage

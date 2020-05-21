@@ -43,7 +43,7 @@ BiocManager::install("bbeaR")
 Loading additional packages that will be used in the analyses.
 
 ```{r Packages}
-source("bbeaR_CleanFunctions.R") #library(bbeaR)
+library(bbeaR)
 library(plyr)
 library(stringr)
 library(ggplot2)
@@ -71,7 +71,7 @@ Then read a *.csv* file of the one plate.
 Note: a separate tutorial (Milk Allergy Example) has an example of importing and processing multiple plates.  
 
 ```{r Raw files}
-bbea <- read.BBEA.csv(fname = "../Data/BBEA_Egg-OVM-IgE/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
+bbea <- read.BBEA.csv(fname = "../inst/extdata/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
 ```
 
 The *bbea* list object contains several elements, extracted from the assay's output.
@@ -110,7 +110,7 @@ We can now add extrenal information about the samples and analytes.
 Load already imported data that inlcudes **p**henotype (clinical) **d**ata *PD* and an annotation file *Annot*. Note: this will also load a *bbea* list object (generated in the previous steps).  
 
 ```{r Load pheno data}
-load("../Data/BBEA_Egg-OVM-IgE/Egg.RData")
+data(Egg)
 ```
 
 The annotation **Annot** dataset contains the mapping of Luminex beads (Analytes) to the peptides/eptiopes.
