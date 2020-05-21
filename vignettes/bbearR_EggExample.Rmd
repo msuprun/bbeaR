@@ -71,7 +71,7 @@ Then read a *.csv* file of the one plate.
 Note: a separate tutorial (Milk Allergy Example) has an example of importing and processing multiple plates.  
 
 ```{r Raw files}
-bbea <- read.BBEA.csv(fname = "../inst/extdata/BBEA_Egg-OVM-IgE/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
+bbea <- read.BBEA.csv(fname = "../Data/BBEA_Egg-OVM-IgE/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
 ```
 
 The *bbea* list object contains several elements, extracted from the assay's output.
@@ -110,7 +110,7 @@ We can now add extrenal information about the samples and analytes.
 Load already imported data that inlcudes **p**henotype (clinical) **d**ata *PD* and an annotation file *Annot*. Note: this will also load a *bbea* list object (generated in the previous steps).  
 
 ```{r Load pheno data}
-load("../data/Egg.RData")
+load("../Data/BBEA_Egg-OVM-IgE/Egg.RData")
 ```
 
 The annotation **Annot** dataset contains the mapping of Luminex beads (Analytes) to the peptides/eptiopes.
@@ -346,7 +346,7 @@ topTable(ebfit, number=10)
 We have identified 7 peptide-specific IgE antibodies that are higher in the allergic group. In this exmaple, we have a small control group (n=6), so the p-values were not corrected for multiple comparison.  
 
 Significant peptide-specific IgE can be visualized using the "area circle" plot.  
-Area of the circle is proportional to the absolute value of the difference (Allergic vs Controls).  Color of the circle indicates the direction (Higher/Up=red, Lower/Down=blue, Non-Significant (NS)=grey) and significance.  
+Area of the circle is proportional to the absolute value of the difference (Allergic vs Controls).  Color of the circle indicates the direction (Higher/Up=red, Lower/Down=blue, Non-Significant (NS)=grey) and significance. User needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.  
 
 ```{r Limma Analysis Circle Plots}
 Run_doNetCirclePlot(ebfit, D, Annot, fname = "lmFit.EAvsAC.")

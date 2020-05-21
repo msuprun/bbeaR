@@ -71,7 +71,7 @@ Then read all four *.csv* files.
 Note: a separate tutorial (Egg Allergy Example) has an example of importing and processing a single plate.  
 
 ```{r Raw files}
-file_names <- dir(path = "../inst/extdata/BBEA_mOIT_IgE", pattern=".csv", 
+file_names <- dir(path = "../Data/BBEA_mOIT_IgE", pattern=".csv", 
                   all.files = FALSE, full.names = TRUE)
 bbea <- read.BBEA.csv.all(file_names[grepl("MOIT_IgE",file_names)]) 
 ```
@@ -112,7 +112,7 @@ We can now add extrenal information about the samples and analytes.
 Load already imported data that inlcudes **p**henotype (clinical) **d**ata *PD* and an annotation file *Annot*. Note: this will also load a *bbea* list object (generated in the previous steps).  
 
 ```{r Load pheno data}
-load("../data/MOIT.RData")
+load("../Data/BBEA_mOIT_IgE/MOIT.RData")
 ```
 
 The annotation **Annot** dataset contains the mapping of Luminex beads (Analytes) to the peptides/eptiopes.
@@ -391,7 +391,7 @@ pheatmap(fitm$coefficients[sepits,], cluster_cols = F,
 
 ```
 
-We can see that epitope-specific IgE decreased in both Omalizumab and Placebo groups, with more changes (in 63 epitope-specific IgE) in the Placebo group. 
+We can see that epitope-specific IgE decreased in both Omalizumab and Placebo groups, with more changes (in 63 epitope-specific IgE) in the Placebo group. User needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.  
 
 ```{r Limma Analysis Circle Plots}
 Run_doNetCirclePlot(ebfit[,1], D[,1], Annot, fname = "lmFit.Placebo.")
