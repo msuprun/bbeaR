@@ -1,15 +1,17 @@
 ---
 title: "bbeaR - Egg Allergy Example"
-author: "Maria Suprun, Randall J. Ellis, Mayte Suarez-Farinas"
-date: "05/7/2020"
+author: "Maria Suprun, Randall J. Ellis, Mayte Suárez-Fariñas"
+date: "05/23/2020"
 output:
   html_document:
     highlight: pygments
     number_sections: yes
     theme: united
     toc: yes
+  word_document:
+    toc: no
   pdf_document:
-    toc: yes  
+    toc: yes
 ---
 
 <!--
