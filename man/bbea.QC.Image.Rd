@@ -34,6 +34,7 @@ bbea.QC.Image(db, ht=4, wd=6, filename="...")
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

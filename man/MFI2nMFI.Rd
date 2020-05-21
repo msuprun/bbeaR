@@ -32,6 +32,7 @@ MFI2nMFI(bbea.obj, offset=0.5, rmNeg=TRUE)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

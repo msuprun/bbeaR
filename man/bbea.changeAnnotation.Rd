@@ -34,6 +34,7 @@ changeAnnotation(bbea.obj, annotation, newNameCol="Peptide", AnalyteCol="Analyte
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

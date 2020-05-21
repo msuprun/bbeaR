@@ -34,6 +34,7 @@ subset.bbea(bbea.obj, statement)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

@@ -34,6 +34,7 @@ bbea.QC.heatmap.counts(bbea.obj, getlog2=FALSE, filename='...')
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

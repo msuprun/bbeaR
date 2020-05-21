@@ -32,6 +32,7 @@ Orientation of 96-well plate (8 rows, 12 columns), either horizontal or vertical
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~
@@ -44,7 +45,8 @@ Randall J. Ellis
 }
 \examples{
 plate <- create.plate.db(direction="horizontal")
-
+plate$plate.design
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")

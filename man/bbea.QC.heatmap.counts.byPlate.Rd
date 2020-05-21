@@ -32,7 +32,9 @@ bbea.QC.heatmap.counts.byPlate(bbea.obj, getlog2=FALSE, filename='...')
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Maria Suprun
+Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~
@@ -44,14 +46,10 @@ bbea.QC.heatmap.counts.byPlate(bbea.obj, getlog2=FALSE, filename='...')
 bbea.QC.heatmap.counts
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+data(Milk)
+bbea.QC.heatmap.counts.byPlate(bbea, getlog2=FALSE,
+                               filename="QC.CountsHeatmap",
+                               plateVar="Plate", ann=NULL, he=7, wi=9)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

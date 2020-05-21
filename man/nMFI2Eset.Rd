@@ -32,6 +32,7 @@ nMFI2Eset(nMFI.object)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

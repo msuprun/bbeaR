@@ -33,6 +33,7 @@ plot.pvca(pvcaObj, cex.percentage = 1, fname = NULL, ht = 4, wd = 5, title = fna
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

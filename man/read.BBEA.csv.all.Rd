@@ -32,6 +32,7 @@ read.BBEA.csv.all(filenames)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

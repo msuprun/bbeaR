@@ -36,6 +36,7 @@ Run_doNetCirclePlot(ebfit, D, AnnotTable, fname, circle.scale = 18.5)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

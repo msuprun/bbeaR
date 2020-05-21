@@ -40,7 +40,7 @@ getTopologyPlotDB(aaseq,ymax=21,offset=4,meta=FALSE,metadb=NULL)
 \author{
 Maria Suprun
 Randall J. Ellis
-
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

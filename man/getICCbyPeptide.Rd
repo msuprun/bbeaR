@@ -34,6 +34,7 @@ getICCbyPeptide(eset, UR="PTID")
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

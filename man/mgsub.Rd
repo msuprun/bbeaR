@@ -34,6 +34,7 @@ mgsub(pattern, replacement)
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

@@ -40,7 +40,7 @@ getEnzymeCuts(sequence,topo = FALSE, topodb = NULL, rmsignal=T, signalend=24)
 \author{
 Maria Suprun
 Randall J. Ellis
-
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~

@@ -34,6 +34,7 @@ getAveragesByReps(eset, UR=c("PTID", "Plate"))
 \author{
 Maria Suprun
 Randall J. Ellis
+Mayte Suárez-Fariñas
 }
 \note{
 %%  ~~further notes~~
