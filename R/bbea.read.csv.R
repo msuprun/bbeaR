@@ -1,4 +1,4 @@
-read.BBEA.csv<-function (fname) {
+bbea.read.csv<-function (fname) {
   require(stringr)
   require(plyr)
   

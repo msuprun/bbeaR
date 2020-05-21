@@ -1,5 +1,5 @@
-\name{subset.bbea}
-\alias{subset.bbea}
+\name{bbea.subset}
+\alias{bbea.subset}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Subset bbea object
@@ -8,12 +8,12 @@ Subset bbea object
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-subset.bbea(bbea.obj, statement)
+bbea.subset(bbea.obj, statement)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{bbea.obj}{bbea data object}
-  \item{statement}statement criterion to subset data by}
+  \item{statement}{statement criterion to subset data by}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

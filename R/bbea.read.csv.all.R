@@ -1,4 +1,4 @@
-read.BBEA.csv.all <- function(filenames) {
+bbea.read.csv.all <- function(filenames) {
   require(stringr)
   Experiment.Plates <- lapply(filenames, read.BBEA.csv)
   Median <- Reduce(bbea.merge, lapply(lapply(Experiment.Plates, function(l) {l$Median}), 

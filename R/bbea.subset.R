@@ -1,4 +1,4 @@
-subset.bbea <- function(bbea.obj, statement) {
+bbea.subset <- function(bbea.obj, statement) {
   z<-rownames(bbea.obj$pData)[statement==TRUE]
   print(paste0(length(z)," Samples meet the statement criteria"))
   L1<-lapply(bbea.obj[(names(bbea.obj)%in%c("Median","NetMFI","Count"))], function(l){l[,z]})

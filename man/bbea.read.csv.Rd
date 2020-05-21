@@ -1,5 +1,5 @@
-\name{read.BBEA.csv}
-\alias{read.BBEA.csv}
+\name{bbea.read.csv}
+\alias{bbea.read.csv}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Read Luminex data from original output file
@@ -9,7 +9,7 @@ From a CSV file of the Luminex output, create a list containing the same output,
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.BBEA.csv(fname="...")
+bbea.read.csv(fname="...")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -51,5 +51,5 @@ Mayte Suárez-Fariñas
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-bbea <- read.BBEA.csv(fname="../Data/BBEA_Egg-OVM-IgE/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
+bbea <- bbea.read.csv(fname="../Data/BBEA_Egg-OVM-IgE/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
 }

@@ -71,7 +71,7 @@ Then read a *.csv* file of the one plate.
 Note: a separate tutorial (Milk Allergy Example) has an example of importing and processing multiple plates.  
 
 ```{r Raw files}
-bbea <- read.BBEA.csv(fname = "../inst/extdata/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
+bbea <- bbea.read.csv(fname = "../inst/extdata/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
 ```
 
 The *bbea* list object contains several elements, extracted from the assay's output.
@@ -99,7 +99,7 @@ The **AssayInfo** saves parameters of the assay.
 bbea$AssayInfo[1:15, 1:2]
 ```
 
-Finally, *read.BBEA.csv()* creates a **phenotype (p)Data** that has some basic information about the samples and the assay run.
+Finally, *bbea.read.csv()* creates a **phenotype (p)Data** that has some basic information about the samples and the assay run.
 
 ```{r}
 colnames(bbea$pData)
@@ -175,17 +175,17 @@ bbea.QC.heatmap.counts(bbea,
 Now we look at the overall distribution of counts: the minimum count is ~69, which is pretty good.
 
 ```{r fig.height=4}
-p<-bbea.QCSamples(bbea,
+p<-bbea.QC.Samples(bbea,
                filename = "QC.",
                plateVar = 'Plate',
                gt = 25)
 grid.arrange(p$pmin, p$pavg, nrow=1)
 ```
 
-Our counts looks good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *subset.bbea()* function, only keeping samples with average counts > 25.  
+Our counts looks good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *bbea.subset()* function, only keeping samples with average counts > 25.  
 
 ```{r eval=FALSE}
-bbea.sub <- subset.bbea(bbea, statement = (bbea$pData$CountMean > 25))
+bbea.sub <- bbea.subset(bbea, statement = (bbea$pData$CountMean > 25))
 ```
 
 # Data Normalization

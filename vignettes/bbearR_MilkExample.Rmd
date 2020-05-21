@@ -45,7 +45,7 @@ BiocManager::install("bbeaR")
 Loading additional packages that will be used in the analyses.
 
 ```{r Packages}
-source("bbeaR_CleanFunctions.R") #library(bbeaR)
+library(bbeaR)
 library(plyr)
 library(stringr)
 library(ggplot2)
@@ -75,7 +75,7 @@ Note: a separate tutorial (Egg Allergy Example) has an example of importing and 
 ```{r Raw files}
 file_names <- dir(path = "../Data/BBEA_mOIT_IgE", pattern=".csv", 
                   all.files = FALSE, full.names = TRUE)
-bbea <- read.BBEA.csv.all(file_names[grepl("MOIT_IgE",file_names)]) 
+bbea <- bbea.read.csv.all(file_names[grepl("MOIT_IgE",file_names)]) 
 ```
 
 The *bbea* list object contains several elements, extracted from the assay's output.
@@ -103,7 +103,7 @@ The **AssayInfo** saves parameters of the assay.
 bbea$AssayInfo[1:15, 1:2]
 ```
 
-Finally, *read.BBEA.csv()* creates a **phenotype (p)Data** that has some basic information about the samples and the assay run.
+Finally, *bbea.read.csv()* creates a **phenotype (p)Data** that has some basic information about the samples and the assay run.
 
 ```{r}
 colnames(bbea$pData)
@@ -182,10 +182,10 @@ p<-bbea.QCSamples(bbea,
 grid.arrange(p$pmin, p$pavg, nrow=1)
 ```
 
-Our counts looks good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *subset.bbea()* function, only keeping samples with average counts > 25.  
+Our counts looks good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *bbea.subset()* function, only keeping samples with average counts > 25.  
 
 ```{r eval=FALSE}
-bbea.sub <- subset.bbea(bbea, statement = (bbea$pData$CountMean > 25))
+bbea.sub <- bbea.subset(bbea, statement = (bbea$pData$CountMean > 25))
 ```
 
 ## Data Normalization
@@ -237,7 +237,7 @@ pvca.obj<-pvcaBatchAssess.bbea(eset,
                                threshold=0.8,
                                batch.factors=c('Plate','Treatment','Visit',"SUBJECT.ID"),  
                                include.inter='Treatment:Visit') 
-plot.pvca(pvca.obj, fname='PVCA.Plate.Covariates', ht=4, wd=5.5,
+pvca.plot(pvca.obj, fname='PVCA.Plate.Covariates', ht=4, wd=5.5,
           order=c('Plate','Treatment','Visit','Treatment x Visit',"SUBJECT.ID",'resid'))
 
 ```

@@ -1,19 +1,19 @@
-\name{read.BBEA.csv.all}
-\alias{read.BBEA.csv.all}
+\name{bbea.QC.Samples}
+\alias{bbea.QC.Samples}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Read multiple Luminex CSV files
+Quality control of samples by visualization of average counts
 }
 \description{
-From a list of Luminex output CSV files, read and merge data
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-read.BBEA.csv.all(filenames)
+bbea.QC.Samples(bbea.obj, filename='...')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{filenames}{
-     List of CSV filenames from Luminex xPONENT outputs
+  \item{bbea.obj}{
+     bbeaR data object
 }
 }
 \details{
@@ -22,8 +22,8 @@ read.BBEA.csv.all(filenames)
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
+\item{pavg}{Average counts of all samples}
+\item{pmin}{Minimum counts of all samples}
 %% ...
 }
 \references{
@@ -41,7 +41,7 @@ Mayte Suárez-Fariñas
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+bbea.QC.heatmap.counts.byPlate
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----
@@ -49,7 +49,7 @@ Mayte Suárez-Fariñas
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-read.BBEA.csv.all(filenames) 
+function (x) 
 {
   }
 }

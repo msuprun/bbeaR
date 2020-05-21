@@ -1,19 +1,19 @@
-\name{bbea.QCSamples}
-\alias{bbea.QCSamples}
+\name{bbea.read.csv.all}
+\alias{bbea.read.csv.all}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Quality control of samples by visualization of average counts
+Read multiple Luminex CSV files
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+From a list of Luminex output CSV files, read and merge data
 }
 \usage{
-bbea.QCSamples(bbea.obj, filename='...')
+bbea.read.csv.all(filenames)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{bbea.obj}{
-     bbeaR data object
+  \item{filenames}{
+     List of CSV filenames from Luminex xPONENT outputs
 }
 }
 \details{
@@ -22,8 +22,8 @@ bbea.QCSamples(bbea.obj, filename='...')
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-\item{pavg}{Average counts of all samples}
-\item{pmin}{Minimum counts of all samples}
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
 \references{
@@ -41,7 +41,7 @@ Mayte Suárez-Fariñas
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-bbea.QC.heatmap.counts.byPlate
+%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 ##---- Should be DIRECTLY executable !! ----
@@ -49,11 +49,8 @@ bbea.QC.heatmap.counts.byPlate
 ##--	or do  help(data=index)  for the standard data sets.
 
 ## The function is currently defined as
-function (x) 
+bbea.read.csv.all(filenames) 
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
