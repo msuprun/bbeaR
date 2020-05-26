@@ -43,12 +43,15 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+data(Egg)
 
-## The function is currently defined as
-function (x) 
-{
-  }
+# convert MFI to normlaized MFI
+bbeaN <- MFI2nMFI(bbeaEgg, offset = 0.5, rmNeg = TRUE)
+
+# chnage to the ExpressionSet object
+eset <- nMFI2Eset(nMFI.object = bbeaN)
+
+# get ICC of the replicates 
+icc.db <- getICCbyPeptide(eset, UR=c("PTID","Plate"))
+head(icc.db)
 }

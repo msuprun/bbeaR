@@ -43,13 +43,8 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+# keeping samples with avergae analyte count of at least 25
+data(Milk)
+bbea.sub <- bbea.subset(bbea, statement = (bbea$pData$CountMean > 25))
 }
 

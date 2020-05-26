@@ -22,11 +22,7 @@ getEnzymeCuts(sequence,topo = FALSE, topodb = NULL, rmsignal=T, signalend=24)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+The functions returns a data.frame with amino acid positiob (AA.Number) and indicator variables if that position could be enzymatically cut by Pepsin (P), Trypsin (T), or Chymotrypsin (Ch). "Enzyme" column is a cancatenation of P,T,and Ch columns. 
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -46,13 +42,7 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+aa.seq<-"MAMAGVFVLFSFVLCGFLPDAAFGAEVDCSRFPNATDKEGKDVLVCNKDLRPICGTDGVTYTNDCLLCAYSIEFGTNISKEHDGECKETVPMNCSSYANTTSEDGKVMVLCNRAFNPVCGTDGVTYDNECLLCAHKVEQGASVDKRHDGGCRKELAAVSVDCSEYPKPDCTAEDRPLCGSDNKTYGNKCNFCNAVVESNGTLTLSHFGKC"
+getEnzymeCuts(aa.seq, topo = FALSE, rmsignal = TRUE, signalend = 24)
 }
 

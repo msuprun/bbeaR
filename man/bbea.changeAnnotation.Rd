@@ -35,7 +35,9 @@ Mayte Suárez-Fariñas
 }
 
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+data(Egg)
+bbeaEgg <- bbea.changeAnnotation(bbea.obj = bbeaEgg, 
+                              annotation = AnnotEgg,
+                              newNameCol = "Peptide", 
+                              AnalyteCol = "Analyte")
 }

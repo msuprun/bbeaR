@@ -44,13 +44,14 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+data(Egg)
+binary.db <- binarizeMFIbySD(bbea.object = bbeaEgg,
+                             buffer.name = "Buffer",
+                             plateVar = "Plate",
+                             UR = 'PTID', 
+                             nSD = 3) 
+sampleNames(binary.db) <- sapply(strsplit(sampleNames(binary.db), "_"),tail, 1)
+# can remove background (Buffer) wells
+binary.db <- binary.db[, !grepl("Buffer", sampleNames(binary.db))]
 }
 

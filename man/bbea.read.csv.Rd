@@ -46,10 +46,6 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-bbea <- bbea.read.csv(fname="../Data/BBEA_Egg-OVM-IgE/BBEA_OVM_58p_IgE_patients_20190625_165733.csv")
+## Do not run
+## bbea <- bbea.read.csv(fname = "../inst/extdata/BBEA_OVM_58p_IgE_patients.csv") 
 }

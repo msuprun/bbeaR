@@ -45,12 +45,13 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-  }
+data(Milk)
+bbeaN <- MFI2nMFI(bbea, offset = 0.5, rmNeg = TRUE) 
+eset <- nMFI2Eset(nMFI.object = bbeaN)
+pvca.obj<-pvcaBatchAssess.bbea(eset,
+                               threshold=0.8,
+                               batch.factors=c('Plate','Treatment','Visit',"SUBJECT.ID"),  
+                               include.inter='Treatment:Visit') 
+pvca.plot(pvca.obj, fname='PVCA.Plate.Covariates', ht=4, wd=5.5,
+          order=c('Plate','Treatment','Visit','Treatment x Visit',"SUBJECT.ID",'resid'))
 }

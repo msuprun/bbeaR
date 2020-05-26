@@ -3,14 +3,14 @@ title: "bbeaR - Milk Allergy Example"
 author: "Maria Suprun, Randall J. Ellis, Mayte Suárez-Fariñas"
 date: "5/27/2020"
 output:
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: no
   html_document: 
     highlight: pygments
     number_sections: yes
     theme: united
-    toc: yes
-  word_document:
-    toc: no
-  pdf_document:
     toc: yes
 ---
 

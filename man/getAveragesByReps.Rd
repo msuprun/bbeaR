@@ -43,16 +43,15 @@ Mayte Suárez-Fariñas
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+data(Egg)
 
-## The function is currently defined as
-function (x) 
-{
-  }
+# convert MFI to normlaized MFI
+bbeaN <- MFI2nMFI(bbeaEgg, offset = 0.5, rmNeg = TRUE)
+
+# chnage to the ExpressionSet object
+eset <- nMFI2Eset(nMFI.object = bbeaN)
+
+# Average technical replicates
+eset.avg <- getAveragesByReps(eset, UR = 'PTID')
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

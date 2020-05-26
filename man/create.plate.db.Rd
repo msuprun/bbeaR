@@ -34,15 +34,7 @@ Maria Suprun
 Randall J. Ellis
 Mayte Suárez-Fariñas
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 plate <- create.plate.db(direction="horizontal")
 plate$plate.design
