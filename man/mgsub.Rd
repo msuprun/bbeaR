@@ -20,8 +20,8 @@ mgsub(pattern, replacement)
 
 
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 

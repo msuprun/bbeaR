@@ -30,8 +30,8 @@ Run_doNetCirclePlot(ebfit, D, AnnotTable, fname, circle.scale = 18.5)
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 \note{

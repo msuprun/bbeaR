@@ -30,8 +30,8 @@ Orientation of 96-well plate (8 rows, 12 columns), either horizontal or vertical
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 

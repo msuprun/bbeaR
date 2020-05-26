@@ -16,8 +16,8 @@ bbea.QC.heatmap.counts.byPlate(bbea.obj, getlog2=FALSE, filename='...')
   \item{getlog2}{boolean to calculate the log2 expression of each epitope}
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 

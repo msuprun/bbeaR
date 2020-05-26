@@ -28,8 +28,8 @@ pvca.plot(pvcaObj, cex.percentage = 1, fname = NULL, ht = 4, wd = 5, title = fna
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 \note{

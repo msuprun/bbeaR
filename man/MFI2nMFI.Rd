@@ -30,8 +30,8 @@ MFI2nMFI(bbea.obj, offset=0.5, rmNeg=TRUE)
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 \note{

@@ -25,8 +25,8 @@ The function returns a list object with a data.frame, which consists of pricinci
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 

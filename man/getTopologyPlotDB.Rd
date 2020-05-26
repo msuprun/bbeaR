@@ -32,8 +32,8 @@ getTopologyPlotDB(aaseq,ymax=21,offset=4,meta=FALSE,metadb=NULL)
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 \note{

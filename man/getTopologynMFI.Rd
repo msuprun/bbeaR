@@ -31,8 +31,8 @@ getTopologynMFI(eset,peptideDB,topoDB,endSignal=0)
 %% ~put references to the literature/web site here ~
 }
 \author{
-Maria Suprun
-Randall J. Ellis
+Maria Suprun,
+Randall J. Ellis,
 Mayte Suárez-Fariñas
 }
 \note{
