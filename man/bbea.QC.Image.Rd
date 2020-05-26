@@ -42,6 +42,8 @@ Mayte Suárez-Fariñas
 }
 \examples{
 data(Egg)
+l <- create.plate.db(direction = "horizontal")
+plate.design.db <- l$plate.design.db
 bbea.QC.Image(bbeaEgg$pData,
               filename = "QC.Image.",
               plate.layout = plate.design.db)
