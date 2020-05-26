@@ -1,9 +1,13 @@
 bbea.QC.Image <- function(db,ht=4,wd=6,filename,txtsize=2,hjust=0.5,
-                          plate.layout=plate.design.db) {
+                          direction="horizontal") {
   require(ggplot2)
   require(stringr)
   require(plyr)
-  image.db.plate <- merge(db, plate.layout, by='Well_coord',all.x=TRUE,all.y=TRUE)
+  
+  l <- create.plate.db(direction = direction)
+  plate.design.db <- l$plate.design.db
+  
+  image.db.plate <- merge(db, plate.design.db, by='Well_coord',all.x=TRUE,all.y=TRUE)
   image.db.plate <- plyr::mutate(image.db.plate,
                                  Well.Letter=factor(str_extract(as.character(Well_coord),"[A-Z]"),
                                                     levels=LETTERS[8:1]),
