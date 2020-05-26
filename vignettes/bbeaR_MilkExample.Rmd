@@ -1,17 +1,17 @@
 ---
 title: "bbeaR - Milk Allergy Example"
-author: "Maria Suprun, Randall J. Ellis, Mayte Suarez-Farinas"
-date: "5/7/2020"
+author: "Maria Suprun, Randall J. Ellis, Mayte Suárez-Fariñas"
+date: "5/27/2020"
 output:
-  html_document:
+  html_document: 
     highlight: pygments
     number_sections: yes
     theme: united
     toc: yes
+  word_document:
+    toc: no
   pdf_document:
-    toc: yes  
-editor_options: 
-  chunk_output_type: console
+    toc: yes
 ---
 
 <!--
@@ -23,7 +23,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
-## About
+# About
 
 The **Bead-Based Epitope Assay** *(BBEA)* can be used to quantify the amount of epitope- or peptide-specific antibodies (e.g., IgE) in plasma or serum samples. A detailed assay description is outlined in 
 <a href="https://www.nature.com/articles/s41598-019-54868-7" target="_blank">this publication</a> 
@@ -32,7 +32,7 @@ In this tutorial, we will analyze a dataset of the immuniglobulin (Ig)E profiles
 
 We will start by installing *bbeaR* and reading in the *BBEA's* raw data (alternatively, one can load an R dataset that comes with this package). We will look at several quality control (QC) measures and normalize the data. Then we will demonstrate an approach to identify epitope-specific (es)IgE that is different between children treated with Placebo or Omalizumab as adjuvants for milk Oral Immunotherapy (mOIT), using <a href="https://bioconductor.org/packages/release/bioc/html/limma.html" target="_blank">limma</a> modeling framework.
 
-## Installation
+# Installation
 
 *bbeaR* is a Bioconductor package and is installed using a standard command:
 
@@ -55,7 +55,7 @@ library(RColorBrewer)
 library(limma)
 ```
 
-## Raw Data Import
+# Raw Data Import
  47 patients were assayed before and after treatment, for a total of 94 samples, each ran in triplicate on four 96-well plates. The runs additionally included three negative control well, without any sample (aka “Buffer”, for background quantification).
 
 The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded here [link].    
@@ -73,8 +73,10 @@ Then read all four *.csv* files.
 Note: a separate tutorial (Egg Allergy Example) has an example of importing and processing a single plate.  
 
 ```{r Raw files}
-file_names <- dir(path = "../Data/BBEA_mOIT_IgE", pattern=".csv", 
+file_names <- dir(path = "../inst/extdata/", pattern=".csv", 
                   all.files = FALSE, full.names = TRUE)
+# file_names <- dir(path = "../Data/BBEA_mOIT_IgE", pattern=".csv", 
+#                   all.files = FALSE, full.names = TRUE)
 bbea <- bbea.read.csv.all(file_names[grepl("MOIT_IgE",file_names)]) 
 ```
 
@@ -151,7 +153,7 @@ rownames(bbea$pData) <- bbea$pData$Rows
 
 ```
 
-## Quality Control of the Raw Data
+# Quality Control of the Raw Data
 
 We want to make sure that there are no missing samples or analytes. This would be reflcected by the very low counts (<25).   
 The heatmap shows that all samples and analytes are were included.
@@ -175,7 +177,7 @@ bbea.QC.heatmap.counts.byPlate(bbea, getlog2=FALSE,
 Now we look at the overall distribution of counts: the minimum count is ~75, which is pretty good.
 
 ```{r fig.height=4}
-p<-bbea.QCSamples(bbea,
+p<-bbea.QC.Samples(bbea,
                filename = "QC.",
                plateVar = 'Plate',
                gt = 25)
@@ -188,7 +190,7 @@ Our counts looks good, so we don't need to exclude any samples. However, if this
 bbea.sub <- bbea.subset(bbea, statement = (bbea$pData$CountMean > 25))
 ```
 
-## Data Normalization
+# Data Normalization
 
 We convert the **Median** to normalized **nMFI** by taking the log~2~ of values and subtracting the average of the background wells. Note: the *Sample* column of the **pData** should include a *"Buffer"* string in the wells dedicated for the background.  
 
@@ -208,7 +210,7 @@ eset <- nMFI2Eset(nMFI.object = bbeaN)
 eset
 ```
 
-## QC of Normalized Data - Batch Effect
+# QC of Normalized Data
 
 We can print the layouts of all experimental plates, to quicky do a visual inspection of the samples.  
 ```{r}
@@ -216,6 +218,8 @@ Image.Plate(bbeaN)
 ```
 
 In this figure, we can clearly see triplicates and several wells (grey) that were used for the background calculaiton. We can also notice that laste plate (plate #4) had only two samples. 
+
+## Batch Effect
 
 Batch effects are a well-known phenomenon in the high-throughput expreiments, i.e. Microarrays, RNAseq, Luminex. For the **BBEA**, batch effects are individual microplate runs. Those are the effects that capture experimental rather than biological variability. Batch effetcs are easy to detetc and eliminate, if experimental conditions are randomized across plate runs.  
 
@@ -274,13 +278,13 @@ pvca.obj<-pvcaBatchAssess.bbea(eset.lm,
                                threshold=0.8,
                                batch.factors=c('Plate','Treatment','Visit',"SUBJECT.ID"),  
                                include.inter='Treatment:Visit') 
-plot.pvca(pvca.obj, fname='PVCA.Plate.Covariates.lm', ht=4, wd=5.5,
+pvca.plot(pvca.obj, fname='PVCA.Plate.Covariates.lm', ht=4, wd=5.5,
           order=c('Plate','Treatment','Visit','Treatment x Visit',"SUBJECT.ID",'resid'))
 
 ```
 
 
-## QC of Normalized Data - Distributions
+## Distributions
 
 Cullen-Frey plots can be used to evaluate the distribution of the data. It shows how the skewness and kurtosis of our data compare to the theoretical distributions.   
 *CullenFreyPlot()* function is a wrapper of the <a href="https://cran.r-project.org/web/packages/fitdistrplus/vignettes/paper2JSS.pdf" target="_blank">fitdistrplus::descdist()</a>.
@@ -298,7 +302,7 @@ CullenFreyPlot(adjnMFI, filename = "QC.CullenFrey.nMFI")
 We can see that while both MFI and nMFI data are skewed, nMFI data is closer to log-normal rather than exponential distributions. 
 
 
-## QC of Normalized Data - Technical Replicates
+## Technical Replicates
 
 Intraclass Correlation Coefficient <a href="https://en.wikipedia.org/wiki/Intraclass_correlation" target="_blank">(ICC)</a> is used to evaluate agreement among technical replicates for each peptide, where 0 means no agreement, and 1 is a perfect agreement.  
 The function returns the ICC and a 95% confidence interval.   
@@ -335,7 +339,7 @@ ggplot(cv.db, aes(x = Peptide,y = mean.cv)) +
 ```
 
 
-## Averaging Technical Replicates
+# Averaging Technical Replicates
 
 If there are no samples to exclude based on ICC, CV and QC of counts, technical triplicates can be averaged for the downstream analyses. 
 
