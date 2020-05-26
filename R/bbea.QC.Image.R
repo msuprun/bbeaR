@@ -1,11 +1,13 @@
 bbea.QC.Image <- function(db,ht=4,wd=6,filename,txtsize=2,hjust=0.5,
-                          direction="horizontal") {
+                          plate.design.db=NULL) {
   require(ggplot2)
   require(stringr)
   require(plyr)
   
-  l <- create.plate.db(direction = direction)
-  plate.design.db <- l$plate.design.db
+  if (is.null(plate.design.db)){
+    plate.design.db<-as.data.frame(cbind(Well_coord=paste0(rep(LETTERS[1:8],each=12),1:12),
+                           print.plate.order=1:96))
+  }
   
   image.db.plate <- merge(db, plate.design.db, by='Well_coord',all.x=TRUE,all.y=TRUE)
   image.db.plate <- plyr::mutate(image.db.plate,
