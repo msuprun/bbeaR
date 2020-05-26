@@ -1,5 +1,10 @@
 Image.Plate <- function (object, image.db = NULL, summary.fcn = mean, filename = "Experiment", 
-                         height = 6, width = 8) {
+                         height = 6, width = 8, direction = "horizontal") {
+  
+
+  l <- create.plate.db(direction = direction)
+  plate.design.db <- l$plate.design.db
+  
   require(gridExtra)
   require(ggplot2)
   if (is.null(image.db)) {
