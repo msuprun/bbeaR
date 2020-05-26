@@ -5,10 +5,12 @@
 Generate a Principal Variance Components Analysis (PVCA) plot
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Plotting the results of the pvcaBarcgAssess.bbea()
 }
 \usage{
-pvca.plot(pvcaObj, cex.percentage = 1, fname = NULL, ht = 4, wd = 5, title = fname,ylim=c(0,1), order=labels)
+pvca.plot(pvcaObj, cex.percentage = 1, 
+fname = NULL, ht = 4, wd = 5, 
+title = fname,ylim=c(0,1), order=labels)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,11 +48,12 @@ data(Milk)
 bbeaN <- MFI2nMFI(bbea, offset = 0.5, rmNeg = TRUE) 
 eset <- nMFI2Eset(nMFI.object = bbeaN)
 pvca.obj<-pvcaBatchAssess.bbea(eset,
-                               threshold=0.8,
-                               batch.factors=c('Plate','Treatment','Visit',"SUBJECT.ID"),  
-                               include.inter='Treatment:Visit') 
+threshold=0.8,
+batch.factors=c('Plate','Treatment','Visit',"SUBJECT.ID"),  
+include.inter='Treatment:Visit') 
 pvca.plot(pvca.obj, fname='PVCA.Plate.Covariates', ht=4, wd=5.5,
-          order=c('Plate','Treatment','Visit','Treatment x Visit',"SUBJECT.ID",'resid'))
+          order=c('Plate','Treatment','Visit',
+          'Treatment x Visit',"SUBJECT.ID",'resid'))
 
 }
 

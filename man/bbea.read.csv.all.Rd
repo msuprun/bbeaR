@@ -45,7 +45,10 @@ Mayte Suárez-Fariñas
 }
 \examples{
 ## Do not run
-## file_names <- dir(path = "../inst/extdata/", pattern=".csv", all.files = FALSE, full.names = TRUE)
+## file_names <- dir(path = "../inst/extdata/", 
+## pattern=".csv", 
+## all.files = FALSE, 
+## full.names = TRUE)
 ## bbea <- bbea.read.csv.all(file_names[grepl("MOIT_IgE",file_names)]) 
 }
 

@@ -5,7 +5,7 @@
 Generate topology plot
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Generating a base topology plot, with layout and meta-data
 }
 \usage{
 makeTopologyPlotBase(db)
@@ -53,7 +53,4 @@ function (x)
 {
   }
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

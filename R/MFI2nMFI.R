@@ -1,4 +1,5 @@
 MFI2nMFI <- function(bbea.obj, offset=0.5, rmNeg=TRUE){
+  require(Biobase)
   # old name PreprocessEpitCompound()
   sample_neg_ctrl<-c()
   nMFIEpit.preproc<-bbea.obj

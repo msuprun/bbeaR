@@ -1,6 +1,8 @@
 CullenFreyPlot <- function(mat, filename="./CullenFrey.", boot=100, 
                            qqPlot=FALSE, scalePeptide=TRUE) {
-  require(fitdistrplus)
+ 
+  require(MASS)
+  library(fitdistrplus)
   
   if (scalePeptide) {
     adj<-t(apply(mat,1,function(x){x-mean(x,na.rm=T)}))

@@ -1,5 +1,6 @@
 pvcaBatchAssess.bbea<-function(eset, batch.factors, threshold, include.inter=NULL) {
   # modified from the pvca::pvcaBatchAssess to include interaction term
+  require(Biobase)
   require(lme4)
   # require(pvca)
   theDataMatrix <- exprs(eset)
