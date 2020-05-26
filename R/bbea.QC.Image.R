@@ -1,6 +1,8 @@
 bbea.QC.Image <- function(db,ht=4,wd=6,filename,txtsize=2,hjust=0.5,
                           plate.layout=plate.design.db) {
   require(ggplot2)
+  require(stringr)
+  require(plyr)
   image.db.plate <- merge(db, plate.layout, by='Well_coord',all.x=TRUE,all.y=TRUE)
   image.db.plate <- plyr::mutate(image.db.plate,
                                  Well.Letter=factor(str_extract(as.character(Well_coord),"[A-Z]"),
