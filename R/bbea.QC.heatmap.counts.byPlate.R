@@ -1,13 +1,14 @@
 bbea.QC.heatmap.counts.byPlate <- function(bbea.obj, getlog2=FALSE,
                                            filename='HeatmapCounts', plateVar="PlateNum",
-                                           ann=NULL, height=7, width=9) {
+                                           ann=NULL, he=7, wi=9) {
   # aka EpitObject.Counts.QCHeatmap.byPlate
   require(ggplot2)
   require(reshape2)
   require(plyr)
   
-  for (i in unique(bbea.obj$pData[,plateVar])) {
-    objectsub <- subset.bbea(bbea.obj,(bbea.obj$pData[,plateVar]==i))
+  for (i in as.character(unique(bbea.obj$pData[,plateVar]))) {
+    print(i)
+    objectsub <- bbea.subset(bbea.obj,(bbea.obj$pData[,plateVar]==i))
     x <- reshape2::melt(mutate(objectsub$Count,Analyte=rownames(objectsub$Count)),id.var="Analyte")
     colnames(x) <- c('Analyte','Sample','Count')
     pd <- cbind.data.frame(Sample=rownames(objectsub$pData),Plate=objectsub$pData[,plateVar])
@@ -34,9 +35,7 @@ bbea.QC.heatmap.counts.byPlate <- function(bbea.obj, getlog2=FALSE,
         theme(axis.text.x=element_text(size=6,angle=90,hjust=1,vjust=0.5)) +
         scale_fill_gradient("Count",low = "white",high = "steelblue")
     }
-    return(p)
-    ggsave(file=paste0(filename,".",i,".pdf"), height=height, width=width,
-           plot=p)
+    ggsave(file=paste0(filename,".",i,".pdf"), height=he, width=wi, plot=p)
   }
   
 }

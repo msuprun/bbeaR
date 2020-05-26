@@ -1,6 +1,6 @@
 bbea.read.csv.all <- function(filenames) {
   require(stringr)
-  Experiment.Plates <- lapply(filenames, read.BBEA.csv)
+  Experiment.Plates <- lapply(filenames, bbea.read.csv)
   Median <- Reduce(bbea.merge, lapply(lapply(Experiment.Plates, function(l) {l$Median}), 
                                       function(x) data.frame(x, rn = row.names(x))))
   colnames(Median) <- str_replace_all(colnames(Median), "[[:punct:]]", ".")

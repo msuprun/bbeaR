@@ -43,7 +43,7 @@ Image.Plate <- function (object, image.db = NULL, summary.fcn = mean, filename =
     plot.list[[b]] <- p
   }
   p <- marrangeGrob(plot.list, nrow = 2, ncol = 2)
-  return(p)
   ggsave(paste0(filename, ".PlateImage.pdf"), p, height = height, 
          width = width)
+  return(p)
 }
