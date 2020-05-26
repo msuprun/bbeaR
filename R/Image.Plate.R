@@ -1,12 +1,13 @@
 Image.Plate <- function (object, image.db = NULL, summary.fcn = mean, filename = "Experiment", 
                          height = 6, width = 8, direction = "horizontal") {
-  
+  require(gridExtra)
+  require(ggplot2)
+  require(plyr)
 
   l <- create.plate.db(direction = direction)
   plate.design.db <- l$plate.design.db
   
-  require(gridExtra)
-  require(ggplot2)
+  
   if (is.null(image.db)) {
     if (any(names(object) == "NetMFI")) {
       Binding.mat <- (object$NetMFI + 0.01)
