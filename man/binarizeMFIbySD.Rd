@@ -45,6 +45,15 @@ Mayte Suárez-Fariñas
 }
 \examples{
 data(Egg)
+# adding patient data
+bbeaEgg$pData <- mutate(bbeaEgg$pData, 
+                     PTID = sapply(strsplit(Sample, "\\-"), head, 1),
+                     SampleType = ifelse(grepl("Buff", Sample),"Buffer",
+                                         ifelse(grepl("PP|NP", Sample),
+                                                sapply(strsplit(Sample, "\\-"),head, 1), "Patient")))
+PDm <- merge(bbeaEgg$pData, PDegg, by = "PTID", all.x = T)
+rownames(PDm) <- PDm$File
+bbeaEgg$pData <- PDm[colnames(bbeaEgg$Median),]
 binary.db <- binarizeMFIbySD(bbea.object = bbeaEgg,
                              buffer.name = "Buffer",
                              plateVar = "Plate",
