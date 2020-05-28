@@ -1,1 +1,8 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("grDevices", "dev.copy", "dev.off", "pdf", "rainbow", "rgb")
+importFrom("graphics", "abline", "hist", "legend", "lines", "par",
+               "plot", "polygon", "text")
+importFrom("stats", "cor", "cor.test", "density", "median", "na.omit",
+           "prcomp", "qqline", "qqnorm", "reshape", "sd", "sigma",
+           "start")
+importFrom("utils", "read.csv", "tail")
