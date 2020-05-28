@@ -47,11 +47,11 @@ Mayte Suárez-Fariñas
 data(Egg)
 # adding patient data
 bbeaEgg$pData <- mutate(bbeaEgg$pData, 
-                     PTID = sapply(strsplit(Sample, "\\-"), head, 1),
+                     PTID = sapply(strsplit(Sample, "-",fixed=TRUE), head, 1),
                      SampleType = ifelse(grepl("Buff", Sample),"Buffer",
                                          ifelse(grepl("PP|NP", Sample),
-                                                sapply(strsplit(Sample, "\\-"),head, 1), "Patient")))
-PDm <- merge(bbeaEgg$pData, PDegg, by = "PTID", all.x = T)
+                                                sapply(strsplit(Sample, "-",fixed=TRUE),head, 1), "Patient")))
+PDm <- merge(bbeaEgg$pData, PDegg, by = "PTID", all.x = TRUE)
 rownames(PDm) <- PDm$File
 bbeaEgg$pData <- PDm[colnames(bbeaEgg$Median),]
 binary.db <- binarizeMFIbySD(bbea.object = bbeaEgg,
