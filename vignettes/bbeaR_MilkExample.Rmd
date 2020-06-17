@@ -3,14 +3,14 @@ title: "bbeaR - Milk Allergy Example"
 author: "Maria Suprun, Randall J. Ellis, Mayte Suárez-Fariñas"
 date: "5/27/2020"
 output:
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: no
   html_document: 
     highlight: pygments
     number_sections: yes
     theme: united
+    toc: yes
+  word_document:
+    toc: no
+  pdf_document:
     toc: yes
 ---
 
@@ -34,12 +34,11 @@ We will start by installing *bbeaR* and reading in the *BBEA's* raw data (altern
 
 # Installation
 
-*bbeaR* is a Bioconductor package and is installed using a standard command:
+*bbeaR* is an R package and is installed using a standard github command:
 
 ```{r eval=FALSE}
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
-BiocManager::install("bbeaR")
+library(devtools)
+install_github('msuprun/bbeaR')
 ```
 
 Loading additional packages that will be used in the analyses.
@@ -73,10 +72,8 @@ Then read all four *.csv* files.
 Note: a separate tutorial (Egg Allergy Example) has an example of importing and processing a single plate.  
 
 ```{r Raw files}
-file_names <- dir(path = "../inst/extdata/", pattern=".csv", 
+file_names <- dir(path = "./", pattern=".csv", 
                   all.files = FALSE, full.names = TRUE)
-# file_names <- dir(path = "../Data/BBEA_mOIT_IgE", pattern=".csv", 
-#                   all.files = FALSE, full.names = TRUE)
 bbea <- bbea.read.csv.all(file_names[grepl("MOIT_IgE",file_names)]) 
 ```
 
