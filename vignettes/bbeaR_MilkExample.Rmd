@@ -1,7 +1,7 @@
 ---
 title: "bbeaR - Milk Allergy Example"
-author: "Maria Suprun, Randall J. Ellis, Mayte Suárez-Fariñas"
-date: "5/27/2020"
+author: "Maria Suprun, Randall J. Ellis, Hugh A. Sampson, Mayte Suárez-Fariñas"
+date: "09/28/2020"
 output:
   html_document: 
     highlight: pygments
@@ -28,9 +28,12 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 The **Bead-Based Epitope Assay** *(BBEA)* can be used to quantify the amount of epitope- or peptide-specific antibodies (e.g., IgE) in plasma or serum samples. A detailed assay description is outlined in 
 <a href="https://www.nature.com/articles/s41598-019-54868-7" target="_blank">this publication</a> 
 
-In this tutorial, we will analyze a dataset of the immuniglobulin (Ig)E profiles in children allergic to milk that were treated with milk oral immunotherapy (OIT). The levels of 66 epitope-specific IgE were measured using *BBEA* in plasma.     
+In this tutorial, we will analyze a dataset of the sequential epitope-specific *(ses-) IgE* profiles in patients allergic to milk that were treated with milk oral immunotherapy (OIT) (<a href="https://pubmed.ncbi.nlm.nih.gov/30528770/" target="_blank">Suárez-Fariñas et al (2018)</a>). Subjects (7-35 years of age) with IgE-mediated cow’s milk allergy were randomized 1:1 to receive omalizumab or placebo in a double-blind, placebo-controlled trial to evaluate whether the addition
+of omalizumab to milk OIT would reduce treatment-related adverse reactions and increase the frequency of patients achieving "sustained unresponsiveness" to milk. Detailed description and primary outcomes of this trail were published in <a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a>.   
 
-We will start by installing *bbeaR* and reading in the *BBEA's* raw data (alternatively, one can load an R dataset that comes with this package). We will look at several quality control (QC) measures and normalize the data. Then we will demonstrate an approach to identify epitope-specific (es)IgE that is different between children treated with Placebo or Omalizumab as adjuvants for milk Oral Immunotherapy (mOIT), using <a href="https://bioconductor.org/packages/release/bioc/html/limma.html" target="_blank">limma</a> modeling framework.
+The levels of 66 ses-IgE antibodies were measured using *BBEA* in plasma of 47 enrolled subjects at baseline and at 32-months of treatment with milk OIT plus placebo or omalizumab.     
+
+We will start by installing *bbeaR* and reading in the *BBEA's* raw data (alternatively, one can load an R dataset that comes with this package). We will look at several quality control (QC) measures and normalize the data. Then we will demonstrate an approach to identify ses-IgE antibodies that is different between children treated with Placebo or Omalizumab as adjuvants for milk Oral Immunotherapy (mOIT), using <a href="https://bioconductor.org/packages/release/bioc/html/limma.html" target="_blank">limma</a> modeling framework.
 
 # Installation
 
@@ -55,11 +58,10 @@ library(limma)
 ```
 
 # Raw Data Import
- 47 patients were assayed before and after treatment, for a total of 94 samples, each ran in triplicate on four 96-well plates. The runs additionally included three negative control well, without any sample (aka “Buffer”, for background quantification).
+47 patients were assayed before and after treatment, for a total of 94 samples, each ran in triplicate on four 96-well plates. The runs additionally included three background wells, without any sample (aka “Buffer”, for background signal quantification).
 
-The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded here [link].    
-
-We need to create a plate layout using the *create.plate.db()* function. This layout will be used in the import and some of the plotting functions. The only input to this function is the direction of the plate read (horizorntal or vertical). 
+The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded <a href="https://github.com/msuprun/bbeaR/tree/master/inst/extdata" target="_blank">here</a>.      
+First, we need to create a plate layout using the *create.plate.db()* function. This layout will be used in the import and some of the plotting functions. The only input to this function is the direction of the plate read (horizontal or vertical). 
 
 ```{r Plate layout}
 l <- create.plate.db(direction = "horizontal")
@@ -69,7 +71,7 @@ plate.design
 ```
 
 Then read all four *.csv* files.    
-Note: a separate tutorial (Egg Allergy Example) has an example of importing and processing a single plate.  
+Note: a separate tutorial (Egg Allergy Example) has an example of importing and processing a single plate.
 
 ```{r Raw files}
 file_names <- dir(path = "./", pattern=".csv", 
@@ -85,7 +87,7 @@ names(bbea)
 
 The **Median**, **NetMFI**, and **Count** are matrices with rows as Analytes (epitopes) and columns as Samples.    
    
-The **Median** are the Median Flourescence Intensities (MFIs) and the **NetMFI** are the Medians normalized to background. In our example, **Median** and **NetMFI** have exactly same values, since normalization was not selected during the assay run. <a href="https://www.luminexcorp.com/blog/its-all-about-the-stats/" target="_blank">This post</a> has more details about the Luminex outputs.
+The **Median** are the Median Fluorescence Intensities (MFIs) and the **NetMFI** are the Medians normalized to background. In our example, **Median** and **NetMFI** have exactly same values, since normalization was not selected during the assay run. <a href="https://www.luminexcorp.com/blog/its-all-about-the-stats/" target="_blank">This post</a> has more details about the Luminex outputs.
 
 ```{r}
 bbea$Median[1:5, 1:2]
@@ -109,21 +111,21 @@ colnames(bbea$pData)
 bbea$pData[1:2, 1:2]
 ```
 
-We can now add extrenal information about the samples and analytes.   
-Load already imported data that inlcudes **p**henotype (clinical) **d**ata *PD* and an annotation file *Annot*. Note: this will also load a *bbea* list object (generated in the previous steps).  
+We can now add external information about the samples and analytes.   
+Load already imported data that includes **p**henotype (clinical) **d**ata *PD* and an annotation file *Annot*. Note: this will also load a *bbea* list object (generated in the previous steps).  
 
 ```{r Load pheno data}
 data(Milk)
 ```
 
-The annotation **Annot** dataset contains the mapping of Luminex beads (Analytes) to the peptides/eptiopes.
+The annotation **Annot** dataset contains the mapping of Luminex beads (Analytes) to the peptides/epitopes.
 
 ```{r}
 dim(Annot)
 head(Annot)
 ```
 
-Changing the *bbea* object to have peptide names instead of analyte numbers.
+Changing the *bbea* object to have milk epitope names instead of Luminex analyte numbers.
 
 ```{r Adding Annotation}
 bbea <- bbea.changeAnnotation(bbea.obj = bbea, 
@@ -152,7 +154,7 @@ rownames(bbea$pData) <- bbea$pData$Rows
 
 # Quality Control of the Raw Data
 
-We want to make sure that there are no missing samples or analytes. This would be reflcected by the very low counts (<25).   
+We want to make sure that there are no missing samples or analytes. This would be reflected by the very low counts (<25).   
 The heatmap shows that all samples and analytes are were included.
 
 ```{r fig.height=6}
@@ -163,7 +165,7 @@ bbea.QC.heatmap.counts(bbea,
 ```
 
 All counts seem to be high and we don't see any specific sample or epitope to be missing.  
-However, when having multiple plates, it might be more useful to have a counts heatmap for each plate separately. This can be achived by running *bbea.QC.heatmap.counts.byPlate()* function.
+However, when having multiple plates, it might be more useful to have a counts heatmap for each plate separately. This can be achieved by running *bbea.QC.heatmap.counts.byPlate()* function.
 
 ```{r eval=FALSE}
 bbea.QC.heatmap.counts.byPlate(bbea, getlog2=FALSE,
@@ -199,7 +201,7 @@ names(bbeaN)
 bbeaN$nMFI[1:5, 1:2]
 ```
 
-R object of class ExpressionSet *eset* is convenient for a high-thoughtput data analysis.  
+R object of class ExpressionSet *eset* is convenient for a high-throughput data analysis.  
 *bbea* object can be converted to eset:  
 
 ```{r}
@@ -214,13 +216,13 @@ We can print the layouts of all experimental plates, to quicky do a visual inspe
 Image.Plate(bbeaN)
 ```
 
-In this figure, we can clearly see triplicates and several wells (grey) that were used for the background calculaiton. We can also notice that laste plate (plate #4) had only two samples. 
+In this figure, we can clearly see triplicates and several wells (grey) that were used for the background calculation. We can also notice that last plate (plate #4) had only two samples. 
 
 ## Batch Effect
 
-Batch effects are a well-known phenomenon in the high-throughput expreiments, i.e. Microarrays, RNAseq, Luminex. For the **BBEA**, batch effects are individual microplate runs. Those are the effects that capture experimental rather than biological variability. Batch effetcs are easy to detetc and eliminate, if experimental conditions are randomized across plate runs.  
+Batch effects are a well-known phenomenon in the high-throughput experiments, i.e. Microarrays, RNAseq, Luminex. For the **BBEA**, batch effects are individual microplate runs. Those are the effects that capture experimental rather than biological variability. Batch effects are easy to detect and eliminate, if experimental conditions are randomized across plate runs.  
 
-Principal Component Analysis (PCA) can be used to viually inspect the data.
+Principal Component Analysis (PCA) can be used to visually inspect the data.
 
 ```{r PCA before pbatch, fig.height=4, fig.width=5}
 pca.db<-getPCAs(eset)
@@ -231,7 +233,7 @@ ggplot(pca.db$db,aes(x=PC.1,y=PC.2,color=Plate)) + geom_point() + theme_bw() +
        title='PCA, unadjusted data')
 ```
 
-Principal Variance Component Analysis <a href="https://onlinelibrary.wiley.com/doi/10.1002/9780470685983.ch12" target="_blank">(PVCA)</a> to quantify the amount of varibaility attributed to the plate. *pvcaBatchAssess.bbea()* function is based on the <a href="https://www.bioconductor.org/packages/release/bioc/html/pvca.html" target="_blank">pvca</a> R package available through Bioconductor.
+Principal Variance Component Analysis <a href="https://onlinelibrary.wiley.com/doi/10.1002/9780470685983.ch12" target="_blank">(PVCA)</a> can be used to quantify the amount of variability attributed to the plate. *pvcaBatchAssess.bbea()* function is based on the <a href="https://www.bioconductor.org/packages/release/bioc/html/pvca.html" target="_blank">pvca</a> R package available through Bioconductor.
 
 ```{r PVCA before batch, fig.height=4, fig.width=5}
 pvca.obj<-pvcaBatchAssess.bbea(eset,
@@ -244,7 +246,7 @@ pvca.plot(pvca.obj, fname='PVCA.Plate.Covariates', ht=4, wd=5.5,
 ```
 
 The PVCA analysis shows that 5% of the variability is attributed to the "plate" effect. 
-There are many ways to remove this variability. We will show the exmaple of fitting a limma model for each epitope with Plate as a covariate and then subtracting the plate coeffcient. More detailed desciropn of this method is described in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6895130/" target="_blank">this publication</a>.
+There are many ways to remove this variability. We will show the example of fitting a limma model for each epitope with Plate as a covariate and then subtracting the plate coefficient. A more detailed description of this method is provided in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6895130/" target="_blank">this publication</a>.
 
 ```{r Batch adjustment}
 design <- model.matrix(~ Plate + Visit*Treatment, data=pData(eset))
@@ -257,7 +259,7 @@ exprs(eset.lm) <- adj.exprs
 
 ```
 
-PCA after the adjustment looks almost identical, as oftentimes the batch effect is not easily detectable "by eye". 
+PCA after the adjustment looks almost identical to the unadjusted one, as oftentimes the batch effect is not easily detectable "by eye". 
 
 ```{r PCA after pbatch, fig.height=4, fig.width=5}
 pca.db<-getPCAs(eset.lm)
@@ -317,7 +319,7 @@ ggplot(icc.db, aes(x = Peptide, y = ICC)) +
   theme_bw() + coord_flip()
 ```
 
-Coefficient of Variation <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation" target="_blank">(CV)</a> is used to estimate varibaility of the replicates. Generally, for biological assays the desired CV is below 20%. 
+Coefficient of Variation <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation" target="_blank">(CV)</a> is used to estimate variability of the replicates. Generally, for biological assays the desired CV is below 20%. 
 
 ```{r CV, results="hide"}
 cv.db <- getCVbyPeptide.MFI(bbea, UR = c("SUBJECT.ID","Visit")) # what is the unit of replication? in this case, it is patient + visit
@@ -356,14 +358,14 @@ pheatmap(exprs(eset.avg)[,ord], scale = "row", fontsize = 6,
 
 ```
 
-The heatmap shows that maybe epitope-specific IgE levels somewhat decreased post treatment.
+The heatmap shows that maybe ses-IgE levels somewhat decreased post treatment.
 To test this statistically, we will do some modelling.
 
 # Differential Analysis - Limma Modeling
+  
+Generally, milk OIT has been shown to induce decreases in antigen-specific IgE (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5946145/ " target="_blank">Mantyla et al (2018)</a>); however, ses-IgEs have not yet been evaluated. Additionally, we are interested whether ses-IgE antibodies decreased after patients were treated with an adjuvant Omalizumab or Placebo in addition to milk OIT. 
 
-We are interested whether epitope-specific IgE antibodies decreased after patients were treated with an adjuvant Omalizumab or Placebo in addition to milk OIT. 
-
-For this, we will use a <a href="https://www.ncbi.nlm.nih.gov/pubmed/25605792" target="_blank">limma framework</a> where a linear model is fit to every peptide. 
+For this, we will use a <a href="https://www.ncbi.nlm.nih.gov/pubmed/25605792" target="_blank">limma framework</a> where a linear model is fit to every peptide to compare omalizumab and placebo arms. 
 
 ```{r Limma Analysis, fig.height=6, fig.width=5}
 design <- model.matrix(~ Visit*Treatment, data=pData(eset.avg)) 
@@ -394,13 +396,15 @@ pheatmap(fitm$coefficients[sepits,], cluster_cols = F,
 
 ```
 
-We can see that epitope-specific IgE decreased in both Omalizumab and Placebo groups, with more changes (in 63 epitope-specific IgE) in the Placebo group. User needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.  
+We can see that ses-IgE decreased in both Omalizumab and Placebo groups, with greater changes in more (63/66) ses-IgEs in the Placebo arm.    
+As described in the primary publication of the trial outcomes by (<a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a>), the majority of safety measures were in fact improved while the withdrawal rate and time needed to achieve maintenance dosing were decreased in patients taking omalizumab as compared to placebo. However, the overall clinical efficacy was similar among both groups. Further mechanistic study of this cohort (<a href="https://pubmed.ncbi.nlm.nih.gov/28414061/" target="_blank">Frischmeyer-Guerrerio et al (2017)</a>) showed that milk OIT plus omalizumab had distinct changes in basophil reactivity (but not T-cells) compared to the placebo arm. <a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/30528770/" target="_blank">Suarez-Farinas et al (2018)</a> found that decreases in IgE binding to milk epitopes and proteins appeared less pronounced in subjects after milk OIT plus omalizumab compared with those receiving milk OIT plus placebo. This observation (at least in terms of IgE specific to the whole protein extract) can be explained by omalizumab 1) forming complexes with soluble IgE, which results in the increase of total IgE (since these complexes take longer to clear) and 2) reducing free IgE that will in turn diminish the amount of IgE that could bind to its Fc receptor on the surface of mast cells and basophils, thus reducing the allergic symptoms (<a href="https://pubmed.ncbi.nlm.nih.gov/19660004/" target="_blank">Lowe et al (2009)</a>).
 
 ```{r Limma Analysis Circle Plots}
 Run_doNetCirclePlot(ebfit[,1], D[,1], Annot, fname = "lmFit.Placebo.")
 Run_doNetCirclePlot(ebfit[,2], D[,2], Annot, fname = "lmFit.Omalizumab.")
 ```
-  
+ 
+For the circle plots, user needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.   
 
 
   
