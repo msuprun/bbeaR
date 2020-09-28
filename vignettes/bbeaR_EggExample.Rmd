@@ -1,16 +1,16 @@
 ---
 title: "bbeaR - Egg Allergy Example"
-author: "Maria Suprun, Randall J. Ellis, Mayte Suárez-Fariñas"
-date: "05/23/2020"
+author: "Maria Suprun, Randall J. Ellis, Hugh A. Sampson, Mayte Suárez-Fariñas"
+date: "09/28/2020"
 output:
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: no
   html_document:
     highlight: pygments
     number_sections: yes
     theme: united
-    toc: yes
-  word_document:
-    toc: no
-  pdf_document:
     toc: yes
 editor_options: 
   chunk_output_type: console
@@ -28,15 +28,15 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 # About
 
 The **Bead-Based Epitope Assay** *(BBEA)* can be used to quantify the amount of epitope- or peptide-specific antibodies (e.g., IgE) in plasma or serum samples. A detailed assay description is outlined in 
-<a href="https://www.nature.com/articles/s41598-019-54868-7" target="_blank">this publication</a>
+<a href="https://www.nature.com/articles/s41598-019-54868-7" target="_blank">this publication</a>.
 
-In this tutorial, we will analyze a dataset of the immuniglobulin (Ig)E profiles in egg allergic children. The levels of IgE to 58 peptides (15-mer, 12 amino acid overlap), covering the entire sequence of hen’s egg-white <a href="https://www.uniprot.org/uniprot/P01005" target="_blank">ovomucoid protein</a>, were measured using *BBEA* in 38 allergic children and 6 controls.    
+Previous studies used peptide microarray technology and found that immunoglobulin (Ig)E specific to sequential epitopes of ovomucoid protein, a major allergen in egg-white, could be a marker of egg allergy diagnosis and persistence (<a href="https://pubmed.ncbi.nlm.nih.gov/23257567/" target="_blank">Martinez-Botas et al (2013) </a> and <a href="https://pubmed.ncbi.nlm.nih.gov/17573723/" target="_blank">Jarvinen et al (2007)</a> ). In this study an tutorial, we evaluated if BBEA can be used to identify IgE-binding epitopes. We analyzed levels of IgE to 58 peptides (15-mer, 12 amino acid overlap), covering the entire sequence of hen’s egg-white <a href="https://www.uniprot.org/uniprot/P01005" target="_blank">ovomucoid protein</a>, measured using *BBEA* in 38 allergic children and 6 controls.    
 
-We will start by installing *bbeaR* and reading in the *BBEA's* raw data (alternatively, one can load an R dataset that comes with this package). We will look at several quality control (QC) measures and normalize the data. Then we will create a topology plot, to highlight immunodominant regions on the ovomucoid protein. At the end, we will demonstrate an approach to identify epitope-specific (es)IgE that are different between allergic children and controls, using <a href="https://bioconductor.org/packages/release/bioc/html/limma.html" target="_blank">limma</a> modeling framework.
+We will start by installing *bbeaR* and reading in the *BBEA's* raw data (alternatively, one can load an R dataset that comes with this package). We will look at several quality control (QC) measures and normalize the data. Then we will create a topology plot, to highlight immunodominant regions on the ovomucoid protein. At the end, we will demonstrate an approach to identify sequential epitope-specific (ses)IgE antibodies that are different between allergic children and controls, using <a href="https://bioconductor.org/packages/release/bioc/html/limma.html" target="_blank">limma</a> modeling framework.
 
 # Installation
 
-*bbeaR* is an R package and is installed using a standard github code:
+*bbeaR* is an R package and is installed using a standard GitHub code:
 
 ```{r eval=FALSE}
 library(devtools)
@@ -58,11 +58,10 @@ library(limma)
 ```
 
 # Raw Data Import
-44 patient samples were assayed in duplicates, ran within the same batch on one 96-well plate. The run additionally inlcuded two positive control pools (aka "PP", a mix of plasma from several allergic patients), a negative pool (aka "NP", a mix of plasma from several healthy patients), and 2 wells without any sample (aka "Buffer", for a background quantification).    
+44 patient samples were assayed in duplicates, ran within the same batch on one 96-well plate. The run additionally included two positive control pools (aka "PP", a mix of plasma from several allergic patients), a negative pool (aka "NP", a mix of plasma from several healthy patients), and 2 wells without any sample (aka "Buffer", for a background quantification).    
 
-The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded here [link].    
-
-We need to create a plate layout using the *create.plate.db()* function. This layout will be used in the import and some of the plotting functions. The only input to this function is the direction of the plate read (horizorntal or vertical). 
+The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded <a href="https://github.com/msuprun/bbeaR/tree/master/inst/extdata" target="_blank">here</a> .      
+First, we need to create a plate layout using the *create.plate.db()* function. This layout will be used in the import and some of the plotting functions. The only input to this function is the direction of the plate read (horizontal or vertical) that was used by the Luminex instrument. 
 
 ```{r Plate layout}
 l <- create.plate.db(direction = "horizontal")
@@ -86,7 +85,7 @@ names(bbeaEgg)
 
 The **Median**, **NetMFI**, and **Count** are matrices with rows as Analytes (epitopes) and columns as Samples.    
    
-The **Median** are the Median Flourescence Intensities (MFIs) and the **NetMFI** are the Medians normalized to background. In our example, **Median** and **NetMFI** have exactly same values, since normalization was not selected during the assay run. <a href="https://www.luminexcorp.com/blog/its-all-about-the-stats/" target="_blank">This post</a> has more details about the Luminex outputs.
+The **Median** are the Median Fluorescence Intensities (MFIs) and the **NetMFI** are the Medians normalized to background. In our example, **Median** and **NetMFI** have exactly same values, since normalization was not selected during the assay run. <a href="https://www.luminexcorp.com/blog/its-all-about-the-stats/" target="_blank">This post</a> has more details about the Luminex outputs.
 
 ```{r}
 bbeaEgg$Median[1:5, 1:2]
@@ -110,8 +109,8 @@ colnames(bbeaEgg$pData)
 bbeaEgg$pData[1:2, 1:2]
 ```
 
-We can now add extrenal information about the samples and analytes.   
-Load already imported data that inlcudes **p**henotype (clinical) **d**ata *PDegg* and an annotation file *AnnotEgg*. Note: this will also load a *bbea* list object (generated in the previous steps).  
+We can now add external information about the samples and analytes.   
+We will load already imported data that includes **p**henotype (clinical) **d**ata *PDegg* and an annotation file *AnnotEgg*. Note: this will also load a *bbea* list object (generated in the previous steps).  
 
 ```{r Load pheno data}
 data(Egg)
@@ -158,7 +157,7 @@ bbeaEgg$pData <- PDm[colnames(bbeaEgg$Median),] # making sure samples are arrang
 # Quality Control of the Raw Data
 
 Layout of the experimental plate.     
-Tip: to make sure no position bias is present in the data, samples have to be randomzied among wells and plates, as outlined in <a href="https://academic.oup.com/bioinformatics/article/35/9/1605/5124272" target="_blank">this publication</a>.
+Tip: to make sure no position bias is present in the data, samples have to be randomized among wells and plates, as outlined in <a href="https://academic.oup.com/bioinformatics/article/35/9/1605/5124272" target="_blank">this publication</a>.
 
 ```{r QC MFI}
 bbea.QC.Image(bbeaEgg$pData,
@@ -166,8 +165,8 @@ bbea.QC.Image(bbeaEgg$pData,
               plate.design.db = plate.design.db)
 ```
 
-We want to make sure that there are no missing samples or analytes. This would be reflcected by the very low counts (<25).   
-The heatmap shows that all samples and analytes are were included.
+We want to make sure that there are no missing samples or analytes. This would be reflected by the very low counts (<25).   
+The heatmap shows that all samples and analytes were included in the experimental run. 
 
 ```{r fig.height=6}
 bbea.QC.heatmap.counts(bbeaEgg,
@@ -186,7 +185,7 @@ p<-bbea.QC.Samples(bbeaEgg,
 grid.arrange(p$pmin, p$pavg, nrow=1)
 ```
 
-Our counts looks good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *bbea.subset()* function, only keeping samples with average counts > 25.  
+Our counts look good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *bbea.subset()* function, only keeping samples with average counts > 25.  
 
 ```{r eval=FALSE}
 bbea.sub <- bbea.subset(bbeaEgg, statement = (bbeaEgg$pData$CountMean > 25))
@@ -206,7 +205,7 @@ names(bbeaN)
 bbeaN$nMFI[1:5, 1:2]
 ```
 
-R object of class ExpressionSet *eset* is convenient for a high-thoughtput data analysis.  
+R object of class ExpressionSet *eset* is convenient for a  high-throughput data analysis.  
 *bbea* object can be converted to eset:  
 
 ```{r}
@@ -218,7 +217,7 @@ eset
 ## Distributions
 
 Overall distribution:   
-Since there are different levels of the antibody to each peptide, the data will be scaled before plotting. Y-axis of the boxplot represents a mean MFI or nMFI of 50 scaled peptides. 
+Since there are different levels of the antibody to each peptide, the data will be scaled before plotting. Y-axis of the boxplot represents a mean MFI or nMFI of 50 scaled peptides. The plots show that IgE to sequential peptides, as expected, is higher in egg allergic patients and positive pools (PP), but not background wells (buffer) or negative control pool (NP).  
 
 ```{r QC Boxplot, message=FALSE, fig.height=4, fig.width=8.5}
 adjMFI <- t(apply(as.matrix(bbeaEgg$Median), 1, function(x){x - mean(x, na.rm=T)}))
@@ -261,7 +260,7 @@ ggplot(icc.db, aes(x = Peptide, y = ICC)) +
   theme_bw() + coord_flip()
 ```
 
-Coefficient of Variation <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation" target="_blank">(CV)</a> is used to estimate varibaility of the replicates. Generally, for biological assays the desired CV is below 20%.    
+Coefficient of Variation <a href="https://en.wikipedia.org/wiki/Coefficient_of_variation" target="_blank">(CV)</a> is used to estimate variability of the replicates. Generally, for biological assays the desired CV is below 20%.    
 
 ```{r CV, results="hide"}
 cv.db <- getCVbyPeptide.MFI(bbeaEgg, 
@@ -293,9 +292,9 @@ pheatmap(exprs(eset.avg), scale = "row", fontsize = 6,
          annotation_col = subset(pData(eset.avg), select = Group))
 ```
 
-The heatmap shows that few of the patients have higher IgE levels to several ovomucoid peptides.
+The heatmap shows that few of the patients have higher IgE levels to several ovomucoid peptides. This is consistent with a <a href="https://pubmed.ncbi.nlm.nih.gov/23257567/" target="_blank">previous study (Martinez-Botas et al 2013)</a> that used peptide microarrays to show heterogeneity of ses-IgE responses among egg allergic patients. Higher levels or diversity (heatmap below) of ses-IgE could be associated with <a href="https://pubmed.ncbi.nlm.nih.gov/17573723/" target="_blank">allergy persistence (Jarvinen et al 2007)</a> , however, a lack of detailed clinical data prevents further conclusions.   
   
-Another useful statistic of IgE levels is a binary value of whether the IgE an epitope is "present". It can be defined as "present" if the MFI 2-3 standard deviations above the background (aka "Buffer" wells). Sometimes it might be more important to compare the MFI to negative control samples rather than the buffer. This can be easily achieved by specifying a desired string (e.g., "NegativeControl" or "NP") in the *buffer.name* argument of *binarizeMFIbySD()*.
+Another useful statistic of IgE levels is a binary value of whether the IgE an epitope is "present", which can also help evaluate ses-IgE diversity. ses-IgE can defined as "present" if the MFI 2-3 standard deviations above the background (aka "Buffer" wells). Sometimes it might be more important to compare the MFI to negative control samples rather than the buffer. This can be easily achieved by specifying a desired string (e.g., "NegativeControl" or "NP") in the *buffer.name* argument of *binarizeMFIbySD()* function.
 
 ```{r Binary peptides, fig.height=5.5, fig.width=6}
 binary.db <- binarizeMFIbySD(bbea.object = bbeaEgg,
@@ -313,7 +312,7 @@ pheatmap(exprs(binary.db), fontsize = 6,
 
 ```
 
-The blue color reprsents peptide-specific IgE antibodies detected in our samples. 
+The blue color represents peptide-specific IgE antibodies detected in our samples. Several patients (right heatmap cluster) have higher ses-IgE diversity, which could potentially be a marker of egg allergy persistence.    
 
 # Differential Analysis - Limma Modeling
 
@@ -347,7 +346,7 @@ topTable(ebfit, number=10)
 
 ```
 
-We have identified 7 peptide-specific IgE antibodies that are higher in the allergic group. In this exmaple, we have a small control group (n=6), so the p-values were not corrected for multiple comparison.  
+We have identified 7 peptide-specific IgE antibodies that are higher in the allergic group. In this example, we have a small control group (n=6), so the p-values were not corrected for multiple comparison.  
 
 Significant peptide-specific IgE can be visualized using the "area circle" plot.  
 Area of the circle is proportional to the absolute value of the difference (Allergic vs Controls).  Color of the circle indicates the direction (Higher/Up=red, Lower/Down=blue, Non-Significant (NS)=grey) and significance. User needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.  
@@ -356,12 +355,11 @@ Area of the circle is proportional to the absolute value of the difference (Alle
 Run_doNetCirclePlot(ebfit, D, AnnotEgg, fname = "lmFit.EAvsAC.")
 ```
 
-
 # Protein Topology Plot
 
 We can now use our experimental data to overlay it on the amino acid sequence of the protein. Ovomucoid doesn't have a complete 3D crystal structure, so a "topology" plot can be helpful in identifying specific areas on a protein that are recognized by patients' IgE. 
 
-First, we need to create a protein layout. We will use *drawProteins* package to download information about the protein sequence from the UniProt database. The meta data inludes amino acid (aa) positions of SIGNAL and CHAIN sequences, as well as information about reactive sites, glycosylation, disulfate bridges.   
+First, we need to create a protein layout. We will use *drawProteins* package to download information about the protein sequence from the UniProt database. The meta data includes amino acid (aa) positions of SIGNAL and CHAIN sequences, as well as information about reactive sites, glycosylation, disulfate bridges.   
 
 ```{r Protein, warning=F}
 json <- drawProteins::get_features("P01005")
@@ -406,7 +404,7 @@ makeTopologyPlotBase(subset(ovm_plotDB, type != "Signal")) +
             size = 2, vjust = -1.7, angle = 90)
 ```
 
-The plot shows that several Asparagine (N) residues are glycosilated; the Cysteine residues colored in orange form disulfade bridges; and there are many potential enzymatic cleavage sites (P=Pepsin; T=Trypsin, Ch=Chymotrypsin).
+The plot shows that several Asparagine (N) residues are glycosylated; the Cysteine residues colored in orange form disulfide bridges; and there are many potential enzymatic cleavage sites (P=Pepsin; T=Trypsin, Ch=Chymotrypsin).
 
 Now we will overlay this topology plot with our experimental data to see if any residues stand out.
 
@@ -444,6 +442,4 @@ makeTopologyPlotBase(subset(dbt, type != "Signal")) +
 
 ```
 
-The topology plot shows that most IgE antibodies of our egg allergic patients were directed to the several groups of amino acids in the N-terminal of the ovomucoid protein. 
-  
-
+The topology plot shows that most IgE antibodies of our egg allergic patients were directed to the several groups of amino acids in the N-terminal of the ovomucoid protein. This way we have identified IgE directed at sequential peptides associated with egg allergy, constituting immunogenic IgE epitopes previously identified by several other groups that used different epitope mapping technologies (<a href="https://pubmed.ncbi.nlm.nih.gov/9257870/" target="_blank">Cooke et al (1997)</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/16210066/" target="_blank">Shreffler et al (2005)</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/17573723/" target="_blank">Jarvinen et al (2007)</a>). 
