@@ -1,16 +1,16 @@
 ---
 title: "bbeaR - Milk Allergy Example"
 author: "Maria Suprun, Randall J. Ellis, Hugh A. Sampson, Mayte Suárez-Fariñas"
-date: "09/28/2020"
+date: "10/08/2020"
 output:
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: no
   html_document: 
     highlight: pygments
     number_sections: yes
     theme: united
-    toc: yes
-  word_document:
-    toc: no
-  pdf_document:
     toc: yes
 ---
 
@@ -60,7 +60,8 @@ library(limma)
 # Raw Data Import
 47 patients were assayed before and after treatment, for a total of 94 samples, each ran in triplicate on four 96-well plates. The runs additionally included three background wells, without any sample (aka “Buffer”, for background signal quantification).
 
-The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded <a href="https://github.com/msuprun/bbeaR/tree/master/inst/extdata" target="_blank">here</a>.      
+The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded <a href="https://github.com/msuprun/bbeaR/tree/master/inst/extdata" target="_blank">here</a>. The .csv sheet consists of several sections, of which "Median", "Count", and "NetMFI" hold the assay's readout values for each epitope-specific antibody (*j*) in columns and each sample (*i*) in rows: ![as shown below](../inst/extdata/milk_raw_data_example.png)
+  
 First, we need to create a plate layout using the *create.plate.db()* function. This layout will be used in the import and some of the plotting functions. The only input to this function is the direction of the plate read (horizontal or vertical). 
 
 ```{r Plate layout}
@@ -85,7 +86,7 @@ The *bbea* list object contains several elements, extracted from the assay's out
 names(bbea)
 ```
 
-The **Median**, **NetMFI**, and **Count** are matrices with rows as Analytes (epitopes) and columns as Samples.    
+The **Median**, **NetMFI**, and **Count** are matrices with rows as Analytes (epitopes) and columns as Samples. Note: this is changed from the original data layout, where samples were in rows and epitopes in columns, to make the dataset usable with common analytical tools in R. 
    
 The **Median** are the Median Fluorescence Intensities (MFIs) and the **NetMFI** are the Medians normalized to background. In our example, **Median** and **NetMFI** have exactly same values, since normalization was not selected during the assay run. <a href="https://www.luminexcorp.com/blog/its-all-about-the-stats/" target="_blank">This post</a> has more details about the Luminex outputs.
 
@@ -222,7 +223,7 @@ In this figure, we can clearly see triplicates and several wells (grey) that wer
 
 Batch effects are a well-known phenomenon in the high-throughput experiments, i.e. Microarrays, RNAseq, Luminex. For the **BBEA**, batch effects are individual microplate runs. Those are the effects that capture experimental rather than biological variability. Batch effects are easy to detect and eliminate, if experimental conditions are randomized across plate runs.  
 
-Principal Component Analysis (PCA) can be used to visually inspect the data.
+Principal Component Analysis (PCA) is a broadly used dimensionality reduction technique that allows visualization of high-dimensional data (such as epitopes, genes, proteins, etc). Data is projected into a few principal components (PCs), designed as to maximize the variance of the data, and as such, the 1st PC explains most of the variance, followed by the 2nd PC, 3rd PC, and etc. A researcher can then use a 2D or 3D plot of a small number of PCs to evaluate ‘overall’ differences in the samples. If the samples are visually clustered together by plate, this indicates that variability in the data can be explained by the plate, which is oftentimes undesirable, since it means that technical experimental factors (instrument calibration, room light and temperature, etc) are affecting the data.
 
 ```{r PCA before pbatch, fig.height=4, fig.width=5}
 pca.db<-getPCAs(eset)
@@ -233,7 +234,8 @@ ggplot(pca.db$db,aes(x=PC.1,y=PC.2,color=Plate)) + geom_point() + theme_bw() +
        title='PCA, unadjusted data')
 ```
 
-Principal Variance Component Analysis <a href="https://onlinelibrary.wiley.com/doi/10.1002/9780470685983.ch12" target="_blank">(PVCA)</a> can be used to quantify the amount of variability attributed to the plate. *pvcaBatchAssess.bbea()* function is based on the <a href="https://www.bioconductor.org/packages/release/bioc/html/pvca.html" target="_blank">pvca</a> R package available through Bioconductor.
+While PCA is a quick way to visualize the data, when dealing with a lot of features, it might be difficult to visually identify how much variability is actually attributed to a factor of interest, such as plate effect. Principal Variance Component Analysis <a href="https://onlinelibrary.wiley.com/doi/10.1002/9780470685983.ch12" target="_blank">(PVCA)</a> can be used to quantify the amount of variability attributed to different experimental conditions or sample phenotypes. It models the multivariate distribution of the PCs computed for the PCA as a function of experimental factors (such as plate, visit, diagnosis, etc) and estimates the total variance explained by each factor via mixed-effect models. As the result, one gets a proportion of variance that is attributed to each factor. That way we can quantify what % of the total variance is explained by each factor and thus evaluate the most relevant experimental factors, including plate.  
+*pvcaBatchAssess.bbea()* function is based on the <a href="https://www.bioconductor.org/packages/release/bioc/html/pvca.html" target="_blank">pvca</a> R package available through Bioconductor.
 
 ```{r PVCA before batch, fig.height=4, fig.width=5}
 pvca.obj<-pvcaBatchAssess.bbea(eset,

@@ -1,16 +1,16 @@
 ---
 title: "bbeaR - Egg Allergy Example"
 author: "Maria Suprun, Randall J. Ellis, Hugh A. Sampson, Mayte Suárez-Fariñas"
-date: "09/28/2020"
+date: "10/08/2020"
 output:
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: no
   html_document:
     highlight: pygments
     number_sections: yes
     theme: united
+    toc: yes
+  word_document:
+    toc: no
+  pdf_document:
     toc: yes
 editor_options: 
   chunk_output_type: console
@@ -30,7 +30,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 The **Bead-Based Epitope Assay** *(BBEA)* can be used to quantify the amount of epitope- or peptide-specific antibodies (e.g., IgE) in plasma or serum samples. A detailed assay description is outlined in 
 <a href="https://www.nature.com/articles/s41598-019-54868-7" target="_blank">this publication</a>.
 
-Previous studies used peptide microarray technology and found that immunoglobulin (Ig)E specific to sequential epitopes of ovomucoid protein, a major allergen in egg-white, could be a marker of egg allergy diagnosis and persistence (<a href="https://pubmed.ncbi.nlm.nih.gov/23257567/" target="_blank">Martinez-Botas et al (2013) </a> and <a href="https://pubmed.ncbi.nlm.nih.gov/17573723/" target="_blank">Jarvinen et al (2007)</a> ). In this study an tutorial, we evaluated if BBEA can be used to identify IgE-binding epitopes. We analyzed levels of IgE to 58 peptides (15-mer, 12 amino acid overlap), covering the entire sequence of hen’s egg-white <a href="https://www.uniprot.org/uniprot/P01005" target="_blank">ovomucoid protein</a>, measured using *BBEA* in 38 allergic children and 6 controls.    
+Previous studies used peptide microarray technology and found that immunoglobulin (Ig)E specific to sequential epitopes of ovomucoid protein, a major allergen in egg-white, could be a marker of egg allergy diagnosis and persistence (<a href="https://pubmed.ncbi.nlm.nih.gov/23257567/" target="_blank">Martinez-Botas et al (2013) </a> and <a href="https://pubmed.ncbi.nlm.nih.gov/17573723/" target="_blank">Jarvinen et al (2007)</a>). In this study and tutorial, we evaluated if BBEA can be used to identify IgE-binding epitopes. We analyzed levels of IgE to 58 peptides (15-mer, 12 amino acid overlap), covering the entire sequence of hen’s egg-white <a href="https://www.uniprot.org/uniprot/P01005" target="_blank">ovomucoid protein</a>, measured using *BBEA* in 38 allergic children and 6 controls.    
 
 We will start by installing *bbeaR* and reading in the *BBEA's* raw data (alternatively, one can load an R dataset that comes with this package). We will look at several quality control (QC) measures and normalize the data. Then we will create a topology plot, to highlight immunodominant regions on the ovomucoid protein. At the end, we will demonstrate an approach to identify sequential epitope-specific (ses)IgE antibodies that are different between allergic children and controls, using <a href="https://bioconductor.org/packages/release/bioc/html/limma.html" target="_blank">limma</a> modeling framework.
 
@@ -60,7 +60,9 @@ library(limma)
 # Raw Data Import
 44 patient samples were assayed in duplicates, ran within the same batch on one 96-well plate. The run additionally included two positive control pools (aka "PP", a mix of plasma from several allergic patients), a negative pool (aka "NP", a mix of plasma from several healthy patients), and 2 wells without any sample (aka "Buffer", for a background quantification).    
 
-The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded <a href="https://github.com/msuprun/bbeaR/tree/master/inst/extdata" target="_blank">here</a> .      
+The original *.csv* files from the Luminex-200 assay, generated with the xPONENT® software, can be downloaded <a href="https://github.com/msuprun/bbeaR/tree/master/inst/extdata" target="_blank">here</a>.  
+The .csv sheet consists of several sections, of which "Median", "Count", and "NetMFI" hold the assay's readout values for each epitope-specific antibody (*j*) in columns and each sample (*i*) in rows: ![as shown below](../inst/extdata/egg_raw_data_example.png)
+
 First, we need to create a plate layout using the *create.plate.db()* function. This layout will be used in the import and some of the plotting functions. The only input to this function is the direction of the plate read (horizontal or vertical) that was used by the Luminex instrument. 
 
 ```{r Plate layout}
@@ -83,7 +85,7 @@ The *bbea* list object contains several elements, extracted from the assay's out
 names(bbeaEgg)
 ```
 
-The **Median**, **NetMFI**, and **Count** are matrices with rows as Analytes (epitopes) and columns as Samples.    
+The **Median**, **NetMFI**, and **Count** are matrices with rows as Analytes (epitopes) and columns as Samples. Note: this is changed from the original data layout, where samples were in rows and epitopes in columns, to make the dataset usable with common analytical tools in R.     
    
 The **Median** are the Median Fluorescence Intensities (MFIs) and the **NetMFI** are the Medians normalized to background. In our example, **Median** and **NetMFI** have exactly same values, since normalization was not selected during the assay run. <a href="https://www.luminexcorp.com/blog/its-all-about-the-stats/" target="_blank">This post</a> has more details about the Luminex outputs.
 
@@ -312,11 +314,11 @@ pheatmap(exprs(binary.db), fontsize = 6,
 
 ```
 
-The blue color represents peptide-specific IgE antibodies detected in our samples. Several patients (right heatmap cluster) have higher ses-IgE diversity, which could potentially be a marker of egg allergy persistence.    
+The blue color represents epitope-specific IgE antibodies detected in our samples. Several patients (right heatmap cluster) have higher ses-IgE diversity, which could potentially be a marker of egg allergy persistence.    
 
 # Differential Analysis - Limma Modeling
 
-We are interested in identifying peptide-specific IgE antibodies that are different between egg allergic patients and atopic controls. Atopic controls are patients that are not allergic to egg but have other types of allergies.  
+We are interested in identifying epitope-specific IgE antibodies that are different between egg allergic patients and atopic controls. Atopic controls are patients that are not allergic to egg but have other types of allergies.  
 
 For this, we will use a <a href="https://www.ncbi.nlm.nih.gov/pubmed/25605792" target="_blank">limma framework</a> where a linear model is fit to every peptide. 
 
@@ -341,14 +343,14 @@ D <- decideTests(ebfit, method = "separate", adjust.method = "none",
                  p.value = 0.05, lfc = log2(1))
 t(summary(D)) # number of significant peptides
 
-# Table of top peptide-specific IgE antibodies
+# Table of top epitope-specific IgE antibodies
 topTable(ebfit, number=10)
 
 ```
 
-We have identified 7 peptide-specific IgE antibodies that are higher in the allergic group. In this example, we have a small control group (n=6), so the p-values were not corrected for multiple comparison.  
+We have identified 7 epitope-specific IgE antibodies that are higher in the allergic group. In this example, we have a small control group (n=6), so the p-values were not corrected for multiple comparison.  
 
-Significant peptide-specific IgE can be visualized using the "area circle" plot.  
+Significant epitope-specific IgE can be visualized using the "area circle" plot.  
 Area of the circle is proportional to the absolute value of the difference (Allergic vs Controls).  Color of the circle indicates the direction (Higher/Up=red, Lower/Down=blue, Non-Significant (NS)=grey) and significance. User needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.  
 
 ```{r Limma Analysis Circle Plots}
