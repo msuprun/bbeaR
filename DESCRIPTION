@@ -1,6 +1,6 @@
 Package: bbeaR
 Type: Package
-Title: EbbeaR: an R package and framework for epitope-specific antibody profiling
+Title: an R package and framework for epitope-specific antibody profiling
 Version: 0.1.0
 Author: Maria Suprun, Randall J. Ellis, Hugh A. Sampson, Mayte Suárez-Fariñas
 Date: October 9, 2020
