@@ -20,7 +20,7 @@ Please cite:
 
 Suprun et al (2020) "Early epitope-specific IgE antibodies are predictive of childhood peanut allergy". J Allergy Clin Immunol [PMID: 32795587](https://pubmed.ncbi.nlm.nih.gov/32795587/)
 
-Suprun et al (2020) "Ovomucoid epitope-specific repertoire of IgE, IgG4 , IgG1 , IgA1 , and IgD antibodies in egg-allergic children." Allergy [PMID: 32391917](https://pubmed.ncbi.nlm.nih.gov/32391917/)
+Suprun et al (2020) "Ovomucoid epitope-specific repertoire of IgE, IgG4, IgG1, IgA1, and IgD antibodies in egg-allergic children." Allergy [PMID: 32391917](https://pubmed.ncbi.nlm.nih.gov/32391917/)
 
 Suarez-Farinas et al (2018) "Predicting development of sustained unresponsiveness to milk oral immunotherapy using epitope-specific antibody binding profiles." J Allergy Clin Immunol [PMID: 30528770](https://pubmed.ncbi.nlm.nih.gov/30528770/)
 
