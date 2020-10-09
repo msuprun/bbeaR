@@ -100,6 +100,7 @@ bbeaEgg$Count[1:5, 1:2]
 ```
 
 The **AssayInfo** saves parameters of the assay.
+
 ```{r}
 bbeaEgg$AssayInfo[1:15, 1:2]
 ```
@@ -134,7 +135,6 @@ bbeaEgg <- bbea.changeAnnotation(bbea.obj = bbeaEgg,
                               AnalyteCol = "Analyte")
 bbeaEgg$Median[1:5, 1:2]
 ```
-
 
 The **PDegg** dataset has clinical information about our samples.
 
@@ -207,7 +207,7 @@ names(bbeaN)
 bbeaN$nMFI[1:5, 1:2]
 ```
 
-R object of class ExpressionSet *eset* is convenient for a  high-throughput data analysis.  
+R object of class ExpressionSet *eset* is convenient for a high-throughput data analysis.  
 *bbea* object can be converted to eset:  
 
 ```{r}
@@ -350,7 +350,7 @@ topTable(ebfit, number=10)
 
 We have identified 7 epitope-specific IgE antibodies that are higher in the allergic group. In this example, we have a small control group (n=6), so the p-values were not corrected for multiple comparison.  
 
-Significant epitope-specific IgE can be visualized using the "area circle" plot.  
+Significant epitope-specific IgE can be visualized using the "net circle" plot.  
 Area of the circle is proportional to the absolute value of the difference (Allergic vs Controls).  Color of the circle indicates the direction (Higher/Up=red, Lower/Down=blue, Non-Significant (NS)=grey) and significance. User needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.  
 
 ```{r Limma Analysis Circle Plots}

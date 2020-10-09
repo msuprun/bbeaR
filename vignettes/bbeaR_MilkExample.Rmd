@@ -101,11 +101,12 @@ bbea$Count[1:5, 1:2]
 ```
 
 The **AssayInfo** saves parameters of the assay.
+
 ```{r}
 bbea$AssayInfo[1:15, 1:2]
 ```
 
-Finally, *bbea.read.csv()* creates a **phenotype (p)Data** that has some basic information about the samples and the assay run.
+Finally, *bbea.read.csv()* creates a **phenotype (p)Data** that has some basic information about the samples and the assay run. 
 
 ```{r}
 colnames(bbea$pData)
@@ -184,7 +185,7 @@ p<-bbea.QC.Samples(bbea,
 grid.arrange(p$pmin, p$pavg, nrow=1)
 ```
 
-Our counts looks good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *bbea.subset()* function, only keeping samples with average counts > 25.  
+Our counts look good, so we don't need to exclude any samples. However, if this were not the case, samples with low counts can be removed using the *bbea.subset()* function, only keeping samples with average counts > 25.  
 
 ```{r eval=FALSE}
 bbea.sub <- bbea.subset(bbea, statement = (bbea$pData$CountMean > 25))
@@ -213,6 +214,7 @@ eset
 # QC of Normalized Data
 
 We can print the layouts of all experimental plates, to quicky do a visual inspection of the samples.  
+
 ```{r}
 Image.Plate(bbeaN)
 ```
@@ -223,7 +225,7 @@ In this figure, we can clearly see triplicates and several wells (grey) that wer
 
 Batch effects are a well-known phenomenon in the high-throughput experiments, i.e. Microarrays, RNAseq, Luminex. For the **BBEA**, batch effects are individual microplate runs. Those are the effects that capture experimental rather than biological variability. Batch effects are easy to detect and eliminate, if experimental conditions are randomized across plate runs.  
 
-Principal Component Analysis (PCA) is a broadly used dimensionality reduction technique that allows visualization of high-dimensional data (such as epitopes, genes, proteins, etc). Data is projected into a few principal components (PCs), designed as to maximize the variance of the data, and as such, the 1st PC explains most of the variance, followed by the 2nd PC, 3rd PC, and etc. A researcher can then use a 2D or 3D plot of a small number of PCs to evaluate ‘overall’ differences in the samples. If the samples are visually clustered together by plate, this indicates that variability in the data can be explained by the plate, which is oftentimes undesirable, since it means that technical experimental factors (instrument calibration, room light and temperature, etc) are affecting the data.
+Principal Component Analysis (PCA) is a broadly used dimensionality reduction technique that allows visualization of high-dimensional data (such as epitopes, genes, proteins, etc.). Data is projected onto a few principal components (PCs), designed to maximize the explained variance of the data, and as such, the 1st PC explains most of the variance, followed by the 2nd PC, 3rd PC, and etc. A researcher can then use a 2D or 3D plot of a small number of PCs to evaluate ‘overall’ differences in the samples. If the samples are visually clustered together by plate, this indicates that variability in the data can be explained by the plate, which is oftentimes undesirable, since it means that technical experimental factors (instrument calibration, room light and temperature, etc.) are affecting the data. 
 
 ```{r PCA before pbatch, fig.height=4, fig.width=5}
 pca.db<-getPCAs(eset)
@@ -234,7 +236,7 @@ ggplot(pca.db$db,aes(x=PC.1,y=PC.2,color=Plate)) + geom_point() + theme_bw() +
        title='PCA, unadjusted data')
 ```
 
-While PCA is a quick way to visualize the data, when dealing with a lot of features, it might be difficult to visually identify how much variability is actually attributed to a factor of interest, such as plate effect. Principal Variance Component Analysis <a href="https://onlinelibrary.wiley.com/doi/10.1002/9780470685983.ch12" target="_blank">(PVCA)</a> can be used to quantify the amount of variability attributed to different experimental conditions or sample phenotypes. It models the multivariate distribution of the PCs computed for the PCA as a function of experimental factors (such as plate, visit, diagnosis, etc) and estimates the total variance explained by each factor via mixed-effect models. As the result, one gets a proportion of variance that is attributed to each factor. That way we can quantify what % of the total variance is explained by each factor and thus evaluate the most relevant experimental factors, including plate.  
+While PCA is a quick way to visualize the data, it does not offer a succinct way to quantify how much of the observed variation is explained by the experimental factors, especially when there are many of such factors and/or there are suspected interaction effects. Principal Variance Component Analysis <a href="https://onlinelibrary.wiley.com/doi/10.1002/9780470685983.ch12" target="_blank">(PVCA)</a> can be used to quantify the amount of variability attributed to different experimental conditions or sample phenotypes. It models the multivariate distribution of the PCs computed for the PCA as a function of experimental factors (such as plate, visit, diagnosis, etc.) and estimates the total variance explained by each factor via mixed-effect models. As a result, the researcher receives as output a proportion of variance that is attributed to each factor. This can be used to quantify what percentage of the total variance is explained by each factor and thus evaluate the most relevant experimental factors, including plate.  
 *pvcaBatchAssess.bbea()* function is based on the <a href="https://www.bioconductor.org/packages/release/bioc/html/pvca.html" target="_blank">pvca</a> R package available through Bioconductor.
 
 ```{r PVCA before batch, fig.height=4, fig.width=5}
@@ -399,7 +401,7 @@ pheatmap(fitm$coefficients[sepits,], cluster_cols = F,
 ```
 
 We can see that ses-IgE decreased in both Omalizumab and Placebo groups, with greater changes in more (63/66) ses-IgEs in the Placebo arm.    
-As described in the primary publication of the trial outcomes by (<a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a>), the majority of safety measures were in fact improved while the withdrawal rate and time needed to achieve maintenance dosing were decreased in patients taking omalizumab as compared to placebo. However, the overall clinical efficacy was similar among both groups. Further mechanistic study of this cohort (<a href="https://pubmed.ncbi.nlm.nih.gov/28414061/" target="_blank">Frischmeyer-Guerrerio et al (2017)</a>) showed that milk OIT plus omalizumab had distinct changes in basophil reactivity (but not T-cells) compared to the placebo arm. <a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/30528770/" target="_blank">Suarez-Farinas et al (2018)</a> found that decreases in IgE binding to milk epitopes and proteins appeared less pronounced in subjects after milk OIT plus omalizumab compared with those receiving milk OIT plus placebo. This observation (at least in terms of IgE specific to the whole protein extract) can be explained by omalizumab 1) forming complexes with soluble IgE, which results in the increase of total IgE (since these complexes take longer to clear) and 2) reducing free IgE that will in turn diminish the amount of IgE that could bind to its Fc receptor on the surface of mast cells and basophils, thus reducing the allergic symptoms (<a href="https://pubmed.ncbi.nlm.nih.gov/19660004/" target="_blank">Lowe et al (2009)</a>).
+As described in the primary publication of the trial outcomes by (<a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a>), the majority of safety measures were in fact improved while the withdrawal rate and time needed to achieve maintenance dosing were decreased in patients taking omalizumab as compared to placebo. However, the overall clinical efficacy was similar among both groups. Further mechanistic study of this cohort (<a href="https://pubmed.ncbi.nlm.nih.gov/28414061/" target="_blank">Frischmeyer-Guerrerio et al (2017)</a>) showed that milk OIT plus omalizumab had distinct changes in basophil reactivity (but not T-cells) compared to the placebo arm. <a href="https://pubmed.ncbi.nlm.nih.gov/26581915/" target="_blank">Wood et al (2015)</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/30528770/" target="_blank">Suarez-Farinas et al (2018)</a> found that decreases in IgE binding to milk proteins and epitopes appeared less pronounced in subjects after milk OIT plus omalizumab compared with those receiving milk OIT plus placebo. This observation (at least in terms of IgE specific to the whole protein extract) can be explained by omalizumab 1) forming complexes with soluble IgE, which results in the increase of total IgE (since these complexes take longer to clear) and 2) reducing free IgE that will in turn diminish the amount of IgE that could bind to FceRI receptors on the surface of mast cells and basophils, thus reducing the allergic symptoms (<a href="https://pubmed.ncbi.nlm.nih.gov/19660004/" target="_blank">Lowe et al (2009)</a>).
 
 ```{r Limma Analysis Circle Plots}
 Run_doNetCirclePlot(ebfit[,1], D[,1], Annot, fname = "lmFit.Placebo.")
@@ -407,8 +409,3 @@ Run_doNetCirclePlot(ebfit[,2], D[,2], Annot, fname = "lmFit.Omalizumab.")
 ```
  
 For the circle plots, user needs to make sure that the Annotation file has a column named "lableName", as it will be used to print names of the epitopes.   
-
-
-  
-
-
