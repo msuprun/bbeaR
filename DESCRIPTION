@@ -3,7 +3,7 @@ Type: Package
 Title: an R package and framework for epitope-specific antibody profiling
 Version: 0.1.0
 Author: Maria Suprun, Randall J. Ellis, Hugh A. Sampson, Mayte Suárez-Fariñas
-Date: October 9, 2020
+Date: January 20, 2021
 Maintainer: Maria Suprun <maria.suprun@icahn.mssm.edu>
 Depends: MASS, ggplot2, plyr, Biobase, igraph, reshape2, stringr, fitdistrplus
 Description: bbeaR is an open-source R package that provides a framework to import, process and normalize .csv data files exported from the Luminex reader, evaluate various quality control metrics, analyze and visualize the differential epitope-binding antibodies, and map epitope amino acid sequences to their respective primary protein structures. bbeaR enables streamlined and reproducible analysis of epitope-specific antibody profiles.       

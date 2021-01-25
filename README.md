@@ -12,8 +12,7 @@ install_github('msuprun/bbeaR')
 See the full vignettes for [Egg (single assay plate)](https://msuprun.github.io/bbeaR/bbeaR_EggExample.html) or  [Milk (multi-plate assay)](https://msuprun.github.io/bbeaR/bbeaR_MilkExample.html).
 
 ## Citation
-
-Please cite as:
+ 
 Suprun et al (2021) "bbeaR: an R package and framework for epitope-specific antibody profiling". Bioinformatics [PMID: 33471075](https://pubmed.ncbi.nlm.nih.gov/33471075/)
 
 ## Published work using bbeaR's functionality

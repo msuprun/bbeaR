@@ -3,11 +3,9 @@ citEntry(entry="article",
   author = "Maria Suprun, Randall J. Ellis, Hugh A. Sampson, and Mayte Suárez-Fariñas",
   title = "bbeaR: an R package and framework for epitope-specific antibody profiling",
   journal = "Bioinformatics",
-  year = 2020,
-  volume = XXXX,
-  pages = "XXXXXX",
+  year = 2021,
   textVersion=
     paste("Suprun, M., Ellis, R.J., Sampson, H.A. and Suárez-Fariñas, M.",
           "bbeaR: an R package and framework for epitope-specific antibody profiling.", 
-          "Bioinformatics, 2020, 14, 1846-1847",sep="\n")
+          "Bioinformatics, 2021, 14, 1846-1847",sep="\n")
 )
